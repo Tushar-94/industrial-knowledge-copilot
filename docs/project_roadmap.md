@@ -37,9 +37,9 @@ Build a realistic, evaluation-driven RAG and agentic AI system for technical ope
 
 - [x] Define the initial V1 canonical facts
 
-- [ ] Create repository foundation
+- [x] Create repository foundation
 
-- [ ] Build the embedding laboratory
+- [x] Build the embedding laboratory
 
 - [ ] Implement canonical data files
 
@@ -99,5 +99,5 @@ Build a realistic, evaluation-driven RAG and agentic AI system for technical ope
 
 ## Current milestone
 
-Repository foundation and embedding laboratory.
+Canonical industrial data implementation.
 
