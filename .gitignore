@@ -1,0 +1,71 @@
+
+# Virtual environments
+
+.venv/
+
+venv/
+
+# Environment variables and secrets
+
+.env
+
+.env.*
+
+!.env.example
+
+# Python-generated files
+
+__pycache__/
+
+*.py[cod]
+
+*$py.class
+
+# Build and package artifacts
+
+build/
+
+dist/
+
+*.egg-info/
+
+# Test and coverage artifacts
+
+.pytest_cache/
+
+.coverage
+
+htmlcov/
+
+# Type-checker and linter caches
+
+.mypy_cache/
+
+.ruff_cache/
+
+# Jupyter
+
+.ipynb_checkpoints/
+
+# IDE and editor settings
+
+.vscode/
+
+.idea/
+
+# macOS
+
+.DS_Store
+
+# Logs
+
+*.log
+
+# Local vector database and generated runtime data
+
+qdrant_storage/
+
+data/processed/
+
+data/indexes/
+

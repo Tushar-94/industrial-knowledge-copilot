@@ -1,0 +1,35 @@
+
+[build-system]
+
+requires = ["setuptools>=75"]
+
+build-backend = "setuptools.build_meta"
+
+[project]
+
+name = "industrial-knowledge-copilot"
+
+version = "0.1.0"
+
+description = "An evaluation-driven RAG and agentic AI system for technical operations knowledge."
+
+readme = "README.md"
+
+requires-python = ">=3.11,<3.14"
+
+authors = [
+
+    { name = "Tushar Rao" }
+
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+
+dev = []
+
+[tool.setuptools.packages.find]
+
+where = ["src"]
+
