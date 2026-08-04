@@ -1,12 +1,7 @@
+
 """Validate NovaTech canonical source-of-truth files."""
 
 from __future__ import annotations
-
-from industrial_copilot.domain.validation import (
-
-    validate_canonical_relationships,
-
-)
 
 from pathlib import Path
 
@@ -24,20 +19,15 @@ from industrial_copilot.domain.models import (
 
 )
 
+from industrial_copilot.domain.validation import (
+
+    validate_canonical_relationships,
+
+)
+
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 CANONICAL_DIR = PROJECT_ROOT / "data" / "canonical"
-
-validate_canonical_relationships(
-
-    plants=plants,
-
-    machine_models=machine_models,
-
-    machines=machines,
-
-    components=components,
- )
 
 def main() -> None:
 
@@ -75,6 +65,18 @@ def main() -> None:
 
     )
 
+    validate_canonical_relationships(
+
+        plants=plants,
+
+        machine_models=machine_models,
+
+        machines=machines,
+
+        components=components,
+
+    )
+
     print("Canonical data validation passed.")
 
     print(f"Plants: {len(plants.plants)}")
@@ -88,3 +90,4 @@ def main() -> None:
 if __name__ == "__main__":
 
     main()
+
