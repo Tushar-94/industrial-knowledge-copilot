@@ -100,6 +100,44 @@ class Severity(StrEnum):
 
     CRITICAL = "critical"
 
+class ProcedureType(StrEnum):
+
+    """Supported types of controlled procedures."""
+
+    SAFETY = "safety"
+
+    MAINTENANCE = "maintenance"
+
+    OPERATIONS = "operations"
+
+class DocumentType(StrEnum):
+
+    """Supported technical-document categories."""
+
+    OPERATION_MAINTENANCE_MANUAL = "operation_maintenance_manual"
+
+    TROUBLESHOOTING_GUIDE = "troubleshooting_guide"
+
+    STANDARD_OPERATING_PROCEDURE = "standard_operating_procedure"
+
+class DocumentStatus(StrEnum):
+
+    """Lifecycle status of a procedure or document."""
+
+    DRAFT = "draft"
+
+    ACTIVE = "active"
+
+    SUPERSEDED = "superseded"
+
+class LanguageCode(StrEnum):
+
+    """Languages currently supported by the synthetic corpus."""
+
+    ENGLISH = "en"
+
+    GERMAN = "de"
+
 class Plant(StrictBaseModel):
 
     """A NovaTech manufacturing location."""
@@ -366,6 +404,198 @@ class AlarmDefinition(StrictBaseModel):
 
     ]
 
+class SparePart(StrictBaseModel):
+
+    """A replaceable spare part used by one or more machine models."""
+
+    part_number: Annotated[
+
+        str,
+
+        Field(pattern=r"^[A-Z0-9]+(?:-[A-Z0-9]+)+$"),
+
+    ]
+
+    part_name: NonEmptyString
+
+    component_id: Annotated[
+
+        str,
+
+        Field(pattern=r"^[A-Z][A-Z0-9_]+$"),
+
+    ]
+
+    compatible_models: Annotated[
+
+        list[Annotated[str, Field(pattern=r"^MX-\d{3}$")]],
+
+        Field(min_length=1),
+
+    ]
+
+    supplier: NonEmptyString
+
+    unit_cost_eur: PositiveFloat
+
+    stock_quantity: NonNegativeInt
+
+    reorder_point: NonNegativeInt
+
+    lead_time_days: NonNegativeInt
+
+class ProcedureDefinition(StrictBaseModel):
+
+    """Canonical metadata and content outline for a controlled procedure."""
+
+    procedure_id: Annotated[
+
+        str,
+
+        Field(pattern=r"^SOP-[A-Z]+-\d{3}$"),
+
+    ]
+
+    title: NonEmptyString
+
+    procedure_type: ProcedureType
+
+    applicable_models: Annotated[
+
+        list[Annotated[str, Field(pattern=r"^MX-\d{3}$")]],
+
+        Field(min_length=1),
+
+    ]
+
+    applicable_components: list[
+
+        Annotated[str, Field(pattern=r"^[A-Z][A-Z0-9_]+$")]
+
+    ]
+
+    revision: Annotated[
+
+        str,
+
+        Field(pattern=r"^\d+\.\d+$"),
+
+    ]
+
+    effective_date: date
+
+    status: DocumentStatus
+
+    prerequisites: Annotated[
+
+        list[NonEmptyString],
+
+        Field(min_length=1),
+
+    ]
+
+    warnings: list[NonEmptyString]
+
+    steps: Annotated[
+
+        list[NonEmptyString],
+
+        Field(min_length=1),
+
+    ]
+
+class DocumentDefinition(StrictBaseModel):
+
+    """Definition of a synthetic technical document to generate."""
+
+    document_id: Annotated[
+
+        str,
+
+        Field(pattern=r"^(MAN|TSG|SOP)-[A-Z0-9]+-\d{3}$"),
+
+    ]
+
+    title: NonEmptyString
+
+    document_type: DocumentType
+
+    model_ids: list[
+
+        Annotated[str, Field(pattern=r"^MX-\d{3}$")]
+
+    ]
+
+    procedure_ids: list[
+
+        Annotated[str, Field(pattern=r"^SOP-[A-Z]+-\d{3}$")]
+
+    ]
+
+    revision: Annotated[
+
+        str,
+
+        Field(pattern=r"^\d+\.\d+$"),
+
+    ]
+
+    effective_date: date
+
+    status: DocumentStatus
+
+    language: LanguageCode
+
+    source_entity_ids: Annotated[
+
+        list[NonEmptyString],
+
+        Field(min_length=1),
+
+    ]
+
+    @model_validator(mode="after")
+
+    def validate_document_scope(self) -> DocumentDefinition:
+
+        """Require model or procedure scope appropriate to the document."""
+
+        if (
+
+            self.document_type
+
+            == DocumentType.STANDARD_OPERATING_PROCEDURE
+
+            and not self.procedure_ids
+
+        ):
+
+            raise ValueError(
+
+                "SOP documents require at least one procedure ID."
+
+            )
+
+        if (
+
+            self.document_type
+
+            != DocumentType.STANDARD_OPERATING_PROCEDURE
+
+            and not self.model_ids
+
+        ):
+
+            raise ValueError(
+
+                "Manuals and troubleshooting guides require at least "
+
+                "one model ID."
+
+            )
+
+        return self
+
 class PlantCollection(StrictBaseModel):
 
     """Validated contents of plants.yaml."""
@@ -415,6 +645,42 @@ class AlarmCollection(StrictBaseModel):
     alarms: Annotated[
 
         list[AlarmDefinition],
+
+        Field(min_length=1),
+
+    ]
+
+class SparePartCollection(StrictBaseModel):
+
+    """Validated contents of parts.yaml."""
+
+    parts: Annotated[
+
+        list[SparePart],
+
+        Field(min_length=1),
+
+    ]
+
+class ProcedureCollection(StrictBaseModel):
+
+    """Validated contents of procedures.yaml."""
+
+    procedures: Annotated[
+
+        list[ProcedureDefinition],
+
+        Field(min_length=1),
+
+    ]
+
+class DocumentCollection(StrictBaseModel):
+
+    """Validated contents of documents.yaml."""
+
+    documents: Annotated[
+
+        list[DocumentDefinition],
 
         Field(min_length=1),
 

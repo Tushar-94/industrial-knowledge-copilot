@@ -11,6 +11,8 @@ from industrial_copilot.domain.models import (
 
     ComponentCollection,
 
+    DocumentCollection,
+
     MachineCollection,
 
     MachineModelCollection,
@@ -19,11 +21,15 @@ from industrial_copilot.domain.models import (
 
     PlantCollection,
 
+    ProcedureCollection,
+
+    SparePartCollection,
+
 )
 
 def _find_duplicates(values: list[str]) -> list[str]:
 
-    """Return sorted values that appear more than once."""
+    """Return sorted values that occur more than once."""
 
     counts = Counter(values)
 
@@ -51,25 +57,19 @@ def validate_canonical_relationships(
 
     alarms: AlarmCollection,
 
+    parts: SparePartCollection,
+
+    procedures: ProcedureCollection,
+
+    documents: DocumentCollection,
+
 ) -> None:
 
-    """Validate uniqueness and references across canonical datasets.
-
-    Raises:
-
-        ValueError: If duplicate identifiers or broken references are found.
-
-    """
+    """Validate uniqueness and references across canonical datasets."""
 
     errors: list[str] = []
 
-    plant_ids = [
-
-        plant.plant_id
-
-        for plant in plants.plants
-
-    ]
+    plant_ids = [plant.plant_id for plant in plants.plants]
 
     model_ids = [
 
@@ -111,6 +111,30 @@ def validate_canonical_relationships(
 
     ]
 
+    part_numbers = [
+
+        part.part_number
+
+        for part in parts.parts
+
+    ]
+
+    procedure_ids = [
+
+        procedure.procedure_id
+
+        for procedure in procedures.procedures
+
+    ]
+
+    document_ids = [
+
+        document.document_id
+
+        for document in documents.documents
+
+    ]
+
     duplicate_groups = {
 
         "plant IDs": _find_duplicates(plant_ids),
@@ -129,6 +153,12 @@ def validate_canonical_relationships(
 
         "alarm codes": _find_duplicates(alarm_codes),
 
+        "part numbers": _find_duplicates(part_numbers),
+
+        "procedure IDs": _find_duplicates(procedure_ids),
+
+        "document IDs": _find_duplicates(document_ids),
+
     }
 
     for label, duplicates in duplicate_groups.items():
@@ -146,6 +176,22 @@ def validate_canonical_relationships(
     known_model_ids = set(model_ids)
 
     known_component_ids = set(component_ids)
+
+    known_rule_ids = set(maintenance_rule_ids)
+
+    known_alarm_codes = set(alarm_codes)
+
+    known_part_numbers = set(part_numbers)
+
+    known_procedure_ids = set(procedure_ids)
+
+    component_by_id = {
+
+        component.component_id: component
+
+        for component in components.components
+
+    }
 
     for machine in machines.machines:
 
@@ -187,14 +233,6 @@ def validate_canonical_relationships(
 
             )
 
-    component_by_id = {
-
-        component.component_id: component
-
-        for component in components.components
-
-    }
-
     for component in components.components:
 
         unknown_models = sorted(
@@ -235,19 +273,35 @@ def validate_canonical_relationships(
 
             )
 
-            continue
+        else:
 
-        component = component_by_id[rule.component_id]
+            component = component_by_id[rule.component_id]
 
-        if rule.model_id not in component.applicable_models:
+            if rule.model_id not in component.applicable_models:
+
+                errors.append(
+
+                    f"Maintenance rule {rule.rule_id} applies model "
+
+                    f"{rule.model_id} to incompatible component "
+
+                    f"{rule.component_id}."
+
+                )
+
+        if (
+
+            rule.related_procedure_id is not None
+
+            and rule.related_procedure_id not in known_procedure_ids
+
+        ):
 
             errors.append(
 
-                f"Maintenance rule {rule.rule_id} applies model "
+                f"Maintenance rule {rule.rule_id} references unknown "
 
-                f"{rule.model_id} to incompatible component "
-
-                f"{rule.component_id}."
+                f"procedure {rule.related_procedure_id}."
 
             )
 
@@ -266,6 +320,182 @@ def validate_canonical_relationships(
                 f"Alarm {alarm.alarm_code} references unknown models: "
 
                 f"{', '.join(unknown_models)}."
+
+            )
+
+        unknown_procedures = sorted(
+
+            set(alarm.related_procedure_ids)
+
+            - known_procedure_ids
+
+        )
+
+        if unknown_procedures:
+
+            errors.append(
+
+                f"Alarm {alarm.alarm_code} references unknown "
+
+                f"procedures: {', '.join(unknown_procedures)}."
+
+            )
+
+    for part in parts.parts:
+
+        if part.component_id not in known_component_ids:
+
+            errors.append(
+
+                f"Part {part.part_number} references unknown component "
+
+                f"{part.component_id}."
+
+            )
+
+            continue
+
+        unknown_models = sorted(
+
+            set(part.compatible_models) - known_model_ids
+
+        )
+
+        if unknown_models:
+
+            errors.append(
+
+                f"Part {part.part_number} references unknown models: "
+
+                f"{', '.join(unknown_models)}."
+
+            )
+
+        component = component_by_id[part.component_id]
+
+        incompatible_models = sorted(
+
+            set(part.compatible_models)
+
+            - set(component.applicable_models)
+
+        )
+
+        if incompatible_models:
+
+            errors.append(
+
+                f"Part {part.part_number} uses incompatible models for "
+
+                f"component {part.component_id}: "
+
+                f"{', '.join(incompatible_models)}."
+
+            )
+
+    for procedure in procedures.procedures:
+
+        unknown_models = sorted(
+
+            set(procedure.applicable_models) - known_model_ids
+
+        )
+
+        if unknown_models:
+
+            errors.append(
+
+                f"Procedure {procedure.procedure_id} references unknown "
+
+                f"models: {', '.join(unknown_models)}."
+
+            )
+
+        unknown_components = sorted(
+
+            set(procedure.applicable_components)
+
+            - known_component_ids
+
+        )
+
+        if unknown_components:
+
+            errors.append(
+
+                f"Procedure {procedure.procedure_id} references unknown "
+
+                f"components: {', '.join(unknown_components)}."
+
+            )
+
+    valid_source_entity_ids = (
+
+        known_model_ids
+
+        | known_rule_ids
+
+        | known_alarm_codes
+
+        | known_part_numbers
+
+        | known_procedure_ids
+
+    )
+
+    for document in documents.documents:
+
+        unknown_models = sorted(
+
+            set(document.model_ids) - known_model_ids
+
+        )
+
+        if unknown_models:
+
+            errors.append(
+
+                f"Document {document.document_id} references unknown "
+
+                f"models: {', '.join(unknown_models)}."
+
+            )
+
+        unknown_procedures = sorted(
+
+            set(document.procedure_ids)
+
+            - known_procedure_ids
+
+        )
+
+        if unknown_procedures:
+
+            errors.append(
+
+                f"Document {document.document_id} references unknown "
+
+                f"procedures: {', '.join(unknown_procedures)}."
+
+            )
+
+        unknown_source_entities = sorted(
+
+            set(document.source_entity_ids)
+
+            - valid_source_entity_ids
+
+        )
+
+        if unknown_source_entities:
+
+            errors.append(
+
+                f"Document {document.document_id} references unknown "
+
+                f"source entities: "
+
+                f"{', '.join(unknown_source_entities)}."
 
             )
 

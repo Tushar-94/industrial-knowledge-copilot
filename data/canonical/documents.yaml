@@ -1,0 +1,413 @@
+
+documents:
+
+  - document_id: MAN-MX200-001
+
+    title: MX-200 Operation and Maintenance Manual
+
+    document_type: operation_maintenance_manual
+
+    model_ids:
+
+      - MX-200
+
+    procedure_ids: []
+
+    revision: "2.2"
+
+    effective_date: 2026-03-01
+
+    status: active
+
+    language: en
+
+    source_entity_ids:
+
+      - MX-200
+
+      - MR-MX200-HRF-INSPECT
+
+      - MR-MX200-HRF-REPLACE
+
+      - MR-MX200-OIL-SAMPLE
+
+      - MR-MX200-OIL-REPLACE
+
+      - MR-MX200-PUMP-INSPECT
+
+      - MR-MX200-SENSOR-CAL
+
+      - MR-MX200-RELIEF-INSPECT
+
+      - MR-MX200-COOLER-INSPECT
+
+      - MR-MX200-LIGHT-CURTAIN
+
+      - MR-MX200-LUBE-INSPECT
+
+  - document_id: MAN-MX220-001
+
+    title: MX-220 Operation and Maintenance Manual
+
+    document_type: operation_maintenance_manual
+
+    model_ids:
+
+      - MX-220
+
+    procedure_ids: []
+
+    revision: "1.8"
+
+    effective_date: 2026-03-01
+
+    status: active
+
+    language: en
+
+    source_entity_ids:
+
+      - MX-220
+
+      - MR-MX220-HRF-INSPECT
+
+      - MR-MX220-HRF-REPLACE
+
+      - MR-MX220-OIL-SAMPLE
+
+      - MR-MX220-OIL-REPLACE
+
+      - MR-MX220-PUMP-INSPECT
+
+  - document_id: MAN-MX300-001
+
+    title: MX-300 Operation and Maintenance Manual
+
+    document_type: operation_maintenance_manual
+
+    model_ids:
+
+      - MX-300
+
+    procedure_ids: []
+
+    revision: "1.5"
+
+    effective_date: 2026-03-01
+
+    status: active
+
+    language: en
+
+    source_entity_ids:
+
+      - MX-300
+
+      - MR-MX300-HRF-INSPECT
+
+      - MR-MX300-HRF-REPLACE
+
+      - MR-MX300-OIL-SAMPLE
+
+      - MR-MX300-OIL-REPLACE
+
+      - MR-MX300-PUMP-INSPECT
+
+  - document_id: TSG-MX200-001
+
+    title: MX-200 Troubleshooting Guide
+
+    document_type: troubleshooting_guide
+
+    model_ids:
+
+      - MX-200
+
+    procedure_ids: []
+
+    revision: "1.6"
+
+    effective_date: 2026-03-10
+
+    status: active
+
+    language: en
+
+    source_entity_ids:
+
+      - MX-200
+
+      - HX-417
+
+      - HX-418
+
+      - HX-421
+
+      - HX-430
+
+      - HX-471
+
+      - CL-118
+
+      - CL-121
+
+      - EX-312
+
+      - EX-318
+
+      - SF-101
+
+      - SF-108
+
+      - SF-115
+
+  - document_id: TSG-MX220-001
+
+    title: MX-220 Troubleshooting Guide
+
+    document_type: troubleshooting_guide
+
+    model_ids:
+
+      - MX-220
+
+    procedure_ids: []
+
+    revision: "1.4"
+
+    effective_date: 2026-03-10
+
+    status: active
+
+    language: en
+
+    source_entity_ids:
+
+      - MX-220
+
+      - HX-417
+
+      - HX-418
+
+      - HX-421
+
+      - HX-430
+
+      - HX-471
+
+      - CL-118
+
+      - CL-121
+
+      - EX-312
+
+      - EX-318
+
+      - SF-101
+
+      - SF-108
+
+      - SF-115
+
+  - document_id: TSG-MX300-001
+
+    title: MX-300 Troubleshooting Guide
+
+    document_type: troubleshooting_guide
+
+    model_ids:
+
+      - MX-300
+
+    procedure_ids: []
+
+    revision: "1.3"
+
+    effective_date: 2026-03-10
+
+    status: active
+
+    language: en
+
+    source_entity_ids:
+
+      - MX-300
+
+      - HX-417
+
+      - HX-418
+
+      - HX-421
+
+      - HX-430
+
+      - HX-471
+
+      - CL-118
+
+      - CL-121
+
+      - EX-312
+
+      - EX-318
+
+      - SF-101
+
+      - SF-108
+
+      - SF-115
+
+  - document_id: SOP-HSE-001
+
+    title: Hazardous Energy Isolation for Press Maintenance
+
+    document_type: standard_operating_procedure
+
+    model_ids: []
+
+    procedure_ids:
+
+      - SOP-HSE-001
+
+    revision: "1.2"
+
+    effective_date: 2026-01-15
+
+    status: active
+
+    language: en
+
+    source_entity_ids:
+
+      - SOP-HSE-001
+
+  - document_id: SOP-MNT-001
+
+    title: Hydraulic System Inspection
+
+    document_type: standard_operating_procedure
+
+    model_ids: []
+
+    procedure_ids:
+
+      - SOP-MNT-001
+
+    revision: "1.4"
+
+    effective_date: 2026-02-01
+
+    status: active
+
+    language: en
+
+    source_entity_ids:
+
+      - SOP-MNT-001
+
+  - document_id: SOP-MNT-002
+
+    title: Hydraulic Return Filter Replacement
+
+    document_type: standard_operating_procedure
+
+    model_ids: []
+
+    procedure_ids:
+
+      - SOP-MNT-002
+
+    revision: "1.3"
+
+    effective_date: 2026-02-01
+
+    status: active
+
+    language: en
+
+    source_entity_ids:
+
+      - SOP-MNT-002
+
+      - HF-220-R10
+
+      - HF-300-R10
+
+  - document_id: SOP-MNT-003
+
+    title: Hydraulic Pressure Sensor Verification and Calibration
+
+    document_type: standard_operating_procedure
+
+    model_ids: []
+
+    procedure_ids:
+
+      - SOP-MNT-003
+
+    revision: "1.1"
+
+    effective_date: 2026-02-15
+
+    status: active
+
+    language: en
+
+    source_entity_ids:
+
+      - SOP-MNT-003
+
+      - PS-210-A
+
+      - PS-225-B
+
+      - PS-250-C
+
+  - document_id: SOP-OPS-001
+
+    title: Normal Machine Startup and Pre-Start Checks
+
+    document_type: standard_operating_procedure
+
+    model_ids: []
+
+    procedure_ids:
+
+      - SOP-OPS-001
+
+    revision: "2.0"
+
+    effective_date: 2026-01-10
+
+    status: active
+
+    language: en
+
+    source_entity_ids:
+
+      - SOP-OPS-001
+
+  - document_id: SOP-OPS-002
+
+    title: Controlled Shutdown and Alarm Escalation
+
+    document_type: standard_operating_procedure
+
+    model_ids: []
+
+    procedure_ids:
+
+      - SOP-OPS-002
+
+    revision: "1.5"
+
+    effective_date: 2026-01-10
+
+    status: active
+
+    language: en
+
+    source_entity_ids:
+
+      - SOP-OPS-002
+

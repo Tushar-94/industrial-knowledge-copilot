@@ -99,5 +99,5 @@ Build a realistic, evaluation-driven RAG and agentic AI system for technical ope
 
 ## Current milestone
 
-Maintenance rules, alarms, parts, and procedures.
+Synthetic technical-document generation.
 

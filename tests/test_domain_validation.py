@@ -17,6 +17,8 @@ from industrial_copilot.domain.models import (
 
     ComponentCollection,
 
+    DocumentCollection,
+
     MachineCollection,
 
     MachineModel,
@@ -26,6 +28,10 @@ from industrial_copilot.domain.models import (
     MaintenanceRuleCollection,
 
     PlantCollection,
+
+    ProcedureCollection,
+
+    SparePartCollection,
 
 )
 
@@ -53,9 +59,15 @@ def load_valid_collections() -> tuple[
 
     AlarmCollection,
 
+    SparePartCollection,
+
+    ProcedureCollection,
+
+    DocumentCollection,
+
 ]:
 
-    """Load the valid canonical fixture files."""
+    """Load all valid canonical source-of-truth collections."""
 
     plants = load_yaml_model(
 
@@ -105,6 +117,30 @@ def load_valid_collections() -> tuple[
 
     )
 
+    parts = load_yaml_model(
+
+        CANONICAL_DIR / "parts.yaml",
+
+        SparePartCollection,
+
+    )
+
+    procedures = load_yaml_model(
+
+        CANONICAL_DIR / "procedures.yaml",
+
+        ProcedureCollection,
+
+    )
+
+    documents = load_yaml_model(
+
+        CANONICAL_DIR / "documents.yaml",
+
+        DocumentCollection,
+
+    )
+
     return (
 
         plants,
@@ -119,25 +155,39 @@ def load_valid_collections() -> tuple[
 
         alarms,
 
+        parts,
+
+        procedures,
+
+        documents,
+
     )
 
-def test_valid_canonical_data_passes_relationship_validation() -> None:
+def validate_all(
 
-    (
+    *,
 
-        plants,
+    plants: PlantCollection,
 
-        machine_models,
+    machine_models: MachineModelCollection,
 
-        machines,
+    machines: MachineCollection,
 
-        components,
+    components: ComponentCollection,
 
-        maintenance_rules,
+    maintenance_rules: MaintenanceRuleCollection,
 
-        alarms,
+    alarms: AlarmCollection,
 
-    ) = load_valid_collections()
+    parts: SparePartCollection,
+
+    procedures: ProcedureCollection,
+
+    documents: DocumentCollection,
+
+) -> None:
+
+    """Call the complete relationship validator."""
 
     validate_canonical_relationships(
 
@@ -152,6 +202,38 @@ def test_valid_canonical_data_passes_relationship_validation() -> None:
         maintenance_rules=maintenance_rules,
 
         alarms=alarms,
+
+        parts=parts,
+
+        procedures=procedures,
+
+        documents=documents,
+
+    )
+
+def test_valid_canonical_data_passes_relationship_validation() -> None:
+
+    collections = load_valid_collections()
+
+    validate_all(
+
+        plants=collections[0],
+
+        machine_models=collections[1],
+
+        machines=collections[2],
+
+        components=collections[3],
+
+        maintenance_rules=collections[4],
+
+        alarms=collections[5],
+
+        parts=collections[6],
+
+        procedures=collections[7],
+
+        documents=collections[8],
 
     )
 
@@ -199,6 +281,12 @@ def test_unknown_machine_model_is_rejected() -> None:
 
         alarms,
 
+        parts,
+
+        procedures,
+
+        documents,
+
     ) = load_valid_collections()
 
     invalid_machine = machines.machines[0].model_copy(
@@ -209,13 +297,7 @@ def test_unknown_machine_model_is_rejected() -> None:
 
     invalid_machines = MachineCollection(
 
-        machines=[
-
-            invalid_machine,
-
-            *machines.machines[1:],
-
-        ]
+        machines=[invalid_machine, *machines.machines[1:]]
 
     )
 
@@ -227,7 +309,7 @@ def test_unknown_machine_model_is_rejected() -> None:
 
     ):
 
-        validate_canonical_relationships(
+        validate_all(
 
             plants=plants,
 
@@ -240,6 +322,12 @@ def test_unknown_machine_model_is_rejected() -> None:
             maintenance_rules=maintenance_rules,
 
             alarms=alarms,
+
+            parts=parts,
+
+            procedures=procedures,
+
+            documents=documents,
 
         )
 
@@ -259,6 +347,12 @@ def test_machine_line_must_match_plant() -> None:
 
         alarms,
 
+        parts,
+
+        procedures,
+
+        documents,
+
     ) = load_valid_collections()
 
     invalid_machine = machines.machines[0].model_copy(
@@ -269,13 +363,7 @@ def test_machine_line_must_match_plant() -> None:
 
     invalid_machines = MachineCollection(
 
-        machines=[
-
-            invalid_machine,
-
-            *machines.machines[1:],
-
-        ]
+        machines=[invalid_machine, *machines.machines[1:]]
 
     )
 
@@ -287,7 +375,7 @@ def test_machine_line_must_match_plant() -> None:
 
     ):
 
-        validate_canonical_relationships(
+        validate_all(
 
             plants=plants,
 
@@ -300,6 +388,12 @@ def test_machine_line_must_match_plant() -> None:
             maintenance_rules=maintenance_rules,
 
             alarms=alarms,
+
+            parts=parts,
+
+            procedures=procedures,
+
+            documents=documents,
 
         )
 
@@ -357,6 +451,12 @@ def test_unknown_rule_component_is_rejected() -> None:
 
         alarms,
 
+        parts,
+
+        procedures,
+
+        documents,
+
     ) = load_valid_collections()
 
     invalid_rule = maintenance_rules.maintenance_rules[0].model_copy(
@@ -385,7 +485,7 @@ def test_unknown_rule_component_is_rejected() -> None:
 
     ):
 
-        validate_canonical_relationships(
+        validate_all(
 
             plants=plants,
 
@@ -398,6 +498,232 @@ def test_unknown_rule_component_is_rejected() -> None:
             maintenance_rules=invalid_rules,
 
             alarms=alarms,
+
+            parts=parts,
+
+            procedures=procedures,
+
+            documents=documents,
+
+        )
+
+def test_unknown_part_component_is_rejected() -> None:
+
+    (
+
+        plants,
+
+        machine_models,
+
+        machines,
+
+        components,
+
+        maintenance_rules,
+
+        alarms,
+
+        parts,
+
+        procedures,
+
+        documents,
+
+    ) = load_valid_collections()
+
+    invalid_part = parts.parts[0].model_copy(
+
+        update={"component_id": "UNKNOWN_COMPONENT"}
+
+    )
+
+    invalid_parts = SparePartCollection(
+
+        parts=[invalid_part, *parts.parts[1:]]
+
+    )
+
+    with pytest.raises(
+
+        ValueError,
+
+        match="references unknown component UNKNOWN_COMPONENT",
+
+    ):
+
+        validate_all(
+
+            plants=plants,
+
+            machine_models=machine_models,
+
+            machines=machines,
+
+            components=components,
+
+            maintenance_rules=maintenance_rules,
+
+            alarms=alarms,
+
+            parts=invalid_parts,
+
+            procedures=procedures,
+
+            documents=documents,
+
+        )
+
+def test_unknown_procedure_component_is_rejected() -> None:
+
+    (
+
+        plants,
+
+        machine_models,
+
+        machines,
+
+        components,
+
+        maintenance_rules,
+
+        alarms,
+
+        parts,
+
+        procedures,
+
+        documents,
+
+    ) = load_valid_collections()
+
+    invalid_procedure = procedures.procedures[0].model_copy(
+
+        update={"applicable_components": ["UNKNOWN_COMPONENT"]}
+
+    )
+
+    invalid_procedures = ProcedureCollection(
+
+        procedures=[
+
+            invalid_procedure,
+
+            *procedures.procedures[1:],
+
+        ]
+
+    )
+
+    with pytest.raises(
+
+        ValueError,
+
+        match="references unknown components: UNKNOWN_COMPONENT",
+
+    ):
+
+        validate_all(
+
+            plants=plants,
+
+            machine_models=machine_models,
+
+            machines=machines,
+
+            components=components,
+
+            maintenance_rules=maintenance_rules,
+
+            alarms=alarms,
+
+            parts=parts,
+
+            procedures=invalid_procedures,
+
+            documents=documents,
+
+        )
+
+def test_document_unknown_source_entity_is_rejected() -> None:
+
+    (
+
+        plants,
+
+        machine_models,
+
+        machines,
+
+        components,
+
+        maintenance_rules,
+
+        alarms,
+
+        parts,
+
+        procedures,
+
+        documents,
+
+    ) = load_valid_collections()
+
+    invalid_document = documents.documents[0].model_copy(
+
+        update={
+
+            "source_entity_ids": [
+
+                *documents.documents[0].source_entity_ids,
+
+                "UNKNOWN-ENTITY",
+
+            ]
+
+        }
+
+    )
+
+    invalid_documents = DocumentCollection(
+
+        documents=[
+
+            invalid_document,
+
+            *documents.documents[1:],
+
+        ]
+
+    )
+
+    with pytest.raises(
+
+        ValueError,
+
+        match="references unknown source entities: UNKNOWN-ENTITY",
+
+    ):
+
+        validate_all(
+
+            plants=plants,
+
+            machine_models=machine_models,
+
+            machines=machines,
+
+            components=components,
+
+            maintenance_rules=maintenance_rules,
+
+            alarms=alarms,
+
+            parts=parts,
+
+            procedures=procedures,
+
+            documents=invalid_documents,
 
         )
 

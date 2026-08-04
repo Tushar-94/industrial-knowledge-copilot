@@ -1,0 +1,357 @@
+
+procedures:
+
+  - procedure_id: SOP-HSE-001
+
+    title: Hazardous Energy Isolation for Press Maintenance
+
+    procedure_type: safety
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    applicable_components: []
+
+    revision: "1.2"
+
+    effective_date: 2026-01-15
+
+    status: active
+
+    prerequisites:
+
+      - Work must be performed by personnel authorized under the site energy-control program.
+
+      - The machine-specific isolation points must be identified before work begins.
+
+    warnings:
+
+      - This synthetic procedure is for demonstration only and is not approved for real equipment.
+
+      - Control-panel stop commands do not replace physical hazardous-energy isolation.
+
+      - Stored hydraulic pressure must be released and verified before intrusive maintenance.
+
+    steps:
+
+      - Notify affected personnel that maintenance isolation is required.
+
+      - Stop the machine using the approved controlled-shutdown procedure.
+
+      - Isolate the approved electrical, hydraulic, pneumatic, and stored-energy sources.
+
+      - Apply personal lockout and identification devices according to the site program.
+
+      - Release or restrain stored hydraulic and mechanical energy.
+
+      - Verify isolation using the approved zero-energy verification method.
+
+      - Perform the authorized maintenance task.
+
+      - Inspect the work area and confirm that tools and personnel are clear.
+
+      - Remove lockout devices only under the approved release process.
+
+      - Restore energy in a controlled sequence and notify affected personnel.
+
+  - procedure_id: SOP-MNT-001
+
+    title: Hydraulic System Inspection
+
+    procedure_type: maintenance
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    applicable_components:
+
+      - HYD_RETURN_FILTER
+
+      - HYD_PUMP
+
+      - HYD_PRESSURE_SENSOR
+
+      - HYD_RELIEF_VALVE
+
+      - HYD_RESERVOIR
+
+      - HYD_OIL
+
+      - COOL_OIL_COOLER
+
+    revision: "1.4"
+
+    effective_date: 2026-02-01
+
+    status: active
+
+    prerequisites:
+
+      - Review active alarms and recent maintenance history.
+
+      - Use the required personal protective equipment for the approved inspection scope.
+
+    warnings:
+
+      - Do not open pressurized hydraulic components.
+
+      - Escalate visible high-pressure leakage immediately.
+
+    steps:
+
+      - Review the machine operating-hour count and maintenance schedule.
+
+      - Inspect the reservoir level and visible hydraulic-fluid condition.
+
+      - Inspect hoses, fittings, and accessible connections for leakage.
+
+      - Record hydraulic pressure and oil temperature under the approved operating state.
+
+      - Check return-filter differential pressure.
+
+      - Listen for abnormal pump noise and inspect for pressure instability.
+
+      - Inspect the oil cooler and verify cooling-flow condition.
+
+      - Record findings and create corrective work where required.
+
+  - procedure_id: SOP-MNT-002
+
+    title: Hydraulic Return Filter Replacement
+
+    procedure_type: maintenance
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    applicable_components:
+
+      - HYD_RETURN_FILTER
+
+    revision: "1.3"
+
+    effective_date: 2026-02-01
+
+    status: active
+
+    prerequisites:
+
+      - Confirm the approved replacement part for the machine model.
+
+      - Complete SOP-HSE-001 before opening the filter housing.
+
+    warnings:
+
+      - Do not open the housing until residual pressure has been verified as released.
+
+      - Prevent contamination from entering the hydraulic circuit.
+
+    steps:
+
+      - Confirm the machine model and approved filter part number.
+
+      - Complete hazardous-energy isolation and pressure-release verification.
+
+      - Clean the exterior of the filter housing.
+
+      - Position an approved container for residual hydraulic fluid.
+
+      - Open the housing using the approved service tool.
+
+      - Remove the used filter element and inspect it for abnormal contamination.
+
+      - Inspect the housing and sealing surfaces.
+
+      - Install the approved replacement element and seal.
+
+      - Close the housing to the approved service specification.
+
+      - Restore the system under the controlled recommissioning process.
+
+      - Inspect for leakage and verify normal differential pressure.
+
+      - Record the replacement in the maintenance system.
+
+  - procedure_id: SOP-MNT-003
+
+    title: Hydraulic Pressure Sensor Verification and Calibration
+
+    procedure_type: maintenance
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    applicable_components:
+
+      - HYD_PRESSURE_SENSOR
+
+    revision: "1.1"
+
+    effective_date: 2026-02-15
+
+    status: active
+
+    prerequisites:
+
+      - Use a calibrated service pressure gauge suitable for the machine pressure range.
+
+      - Confirm that the technician is authorized for hydraulic and control-system work.
+
+    warnings:
+
+      - Do not exceed the machine model's maximum approved pressure.
+
+      - Stop the procedure if unstable pressure or leakage is observed.
+
+    steps:
+
+      - Review active sensor-related alarms and previous calibration records.
+
+      - Inspect the sensor connector and wiring.
+
+      - Connect the approved reference gauge at the designated service point.
+
+      - Compare the machine sensor value with the reference gauge at defined pressure points.
+
+      - Record the deviation at each pressure point.
+
+      - Adjust calibration only through the approved service interface.
+
+      - Repeat the comparison and confirm the permitted tolerance.
+
+      - Replace the sensor when calibration cannot achieve the permitted tolerance.
+
+      - Record the final result and the reference instrument used.
+
+  - procedure_id: SOP-OPS-001
+
+    title: Normal Machine Startup and Pre-Start Checks
+
+    procedure_type: operations
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    applicable_components:
+
+      - SAFE_LIGHT_CURTAIN
+
+      - ELEC_MAIN_MOTOR
+
+      - HYD_RESERVOIR
+
+    revision: "2.0"
+
+    effective_date: 2026-01-10
+
+    status: active
+
+    prerequisites:
+
+      - The operator must be trained and authorized for the machine model.
+
+      - No active maintenance isolation may remain on the machine.
+
+    warnings:
+
+      - Do not bypass guards, interlocks, or protective devices.
+
+      - Do not start the machine while a critical alarm remains active.
+
+    steps:
+
+      - Inspect the work area and remove unauthorized objects.
+
+      - Confirm guards and access doors are closed.
+
+      - Verify that emergency-stop devices are released.
+
+      - Verify that the light curtain and safety circuit report ready.
+
+      - Inspect the hydraulic-fluid level.
+
+      - Enable control power and review the alarm display.
+
+      - Start the hydraulic power unit.
+
+      - Verify stable pressure, normal motor current, and acceptable oil temperature.
+
+      - Perform the approved no-load functional cycle.
+
+      - Release the machine for production only when all checks pass.
+
+  - procedure_id: SOP-OPS-002
+
+    title: Controlled Shutdown and Alarm Escalation
+
+    procedure_type: operations
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    applicable_components: []
+
+    revision: "1.5"
+
+    effective_date: 2026-01-10
+
+    status: active
+
+    prerequisites:
+
+      - The operator must understand the alarm-severity classification.
+
+    warnings:
+
+      - Critical safety alarms must never be bypassed.
+
+      - Repeated restart attempts are prohibited after thermal or safety trips.
+
+    steps:
+
+      - Stop material feeding and complete the current safe cycle when permitted.
+
+      - Move the machine to the approved safe position.
+
+      - Stop automatic operation.
+
+      - Stop the hydraulic power unit when required by the alarm response.
+
+      - Record the active alarm code and machine operating state.
+
+      - Escalate high and critical alarms to authorized maintenance personnel.
+
+      - Apply hazardous-energy isolation when maintenance work is required.
+
+      - Do not restart until the fault has been corrected and release has been authorized.
+

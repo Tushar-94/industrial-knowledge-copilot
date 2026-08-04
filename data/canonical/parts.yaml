@@ -1,0 +1,207 @@
+
+parts:
+
+  - part_number: HF-220-R10
+
+    part_name: 10 Micron Hydraulic Return Filter Element
+
+    component_id: HYD_RETURN_FILTER
+
+    compatible_models:
+
+      - MX-200
+
+      - MX-220
+
+    supplier: NovaFlow Components
+
+    unit_cost_eur: 86.50
+
+    stock_quantity: 7
+
+    reorder_point: 4
+
+    lead_time_days: 8
+
+  - part_number: HF-300-R10
+
+    part_name: Heavy-Duty 10 Micron Hydraulic Return Filter Element
+
+    component_id: HYD_RETURN_FILTER
+
+    compatible_models:
+
+      - MX-300
+
+    supplier: NovaFlow Components
+
+    unit_cost_eur: 124.00
+
+    stock_quantity: 2
+
+    reorder_point: 3
+
+    lead_time_days: 12
+
+  - part_number: PS-210-A
+
+    part_name: Hydraulic Pressure Sensor 210 Bar Range
+
+    component_id: HYD_PRESSURE_SENSOR
+
+    compatible_models:
+
+      - MX-200
+
+    supplier: PreciseSense GmbH
+
+    unit_cost_eur: 318.00
+
+    stock_quantity: 3
+
+    reorder_point: 2
+
+    lead_time_days: 10
+
+  - part_number: PS-225-B
+
+    part_name: Hydraulic Pressure Sensor 225 Bar Range
+
+    component_id: HYD_PRESSURE_SENSOR
+
+    compatible_models:
+
+      - MX-220
+
+    supplier: PreciseSense GmbH
+
+    unit_cost_eur: 336.00
+
+    stock_quantity: 2
+
+    reorder_point: 2
+
+    lead_time_days: 10
+
+  - part_number: PS-250-C
+
+    part_name: Hydraulic Pressure Sensor 250 Bar Range
+
+    component_id: HYD_PRESSURE_SENSOR
+
+    compatible_models:
+
+      - MX-300
+
+    supplier: PreciseSense GmbH
+
+    unit_cost_eur: 389.00
+
+    stock_quantity: 1
+
+    reorder_point: 2
+
+    lead_time_days: 14
+
+  - part_number: RV-210-K
+
+    part_name: Pressure Relief Valve Service Kit
+
+    component_id: HYD_RELIEF_VALVE
+
+    compatible_models:
+
+      - MX-200
+
+    supplier: HydroControl Systems
+
+    unit_cost_eur: 214.00
+
+    stock_quantity: 4
+
+    reorder_point: 2
+
+    lead_time_days: 9
+
+  - part_number: RV-225-K
+
+    part_name: Pressure Relief Valve Service Kit
+
+    component_id: HYD_RELIEF_VALVE
+
+    compatible_models:
+
+      - MX-220
+
+    supplier: HydroControl Systems
+
+    unit_cost_eur: 229.00
+
+    stock_quantity: 2
+
+    reorder_point: 2
+
+    lead_time_days: 11
+
+  - part_number: RV-250-K
+
+    part_name: Heavy-Duty Pressure Relief Valve Service Kit
+
+    component_id: HYD_RELIEF_VALVE
+
+    compatible_models:
+
+      - MX-300
+
+    supplier: HydroControl Systems
+
+    unit_cost_eur: 278.00
+
+    stock_quantity: 1
+
+    reorder_point: 2
+
+    lead_time_days: 15
+
+  - part_number: SEAL-P200-04
+
+    part_name: Hydraulic Pump Seal Kit
+
+    component_id: HYD_PUMP
+
+    compatible_models:
+
+      - MX-200
+
+      - MX-220
+
+    supplier: MotionSeal Europe
+
+    unit_cost_eur: 146.00
+
+    stock_quantity: 3
+
+    reorder_point: 2
+
+    lead_time_days: 7
+
+  - part_number: SEAL-P300-04
+
+    part_name: Heavy-Duty Hydraulic Pump Seal Kit
+
+    component_id: HYD_PUMP
+
+    compatible_models:
+
+      - MX-300
+
+    supplier: MotionSeal Europe
+
+    unit_cost_eur: 196.00
+
+    stock_quantity: 2
+
+    reorder_point: 2
+
+    lead_time_days: 12
+
