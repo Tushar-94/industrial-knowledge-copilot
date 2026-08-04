@@ -8,7 +8,7 @@ from enum import StrEnum
 
 from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 NonEmptyString = Annotated[str, Field(min_length=1)]
 
@@ -17,6 +17,8 @@ PositiveFloat = Annotated[float, Field(gt=0)]
 NonNegativeFloat = Annotated[float, Field(ge=0)]
 
 NonNegativeInt = Annotated[int, Field(ge=0)]
+
+PositiveInt = Annotated[int, Field(gt=0)]
 
 class StrictBaseModel(BaseModel):
 
@@ -63,6 +65,40 @@ class SystemType(StrEnum):
     SAFETY = "safety"
 
     LUBRICATION = "lubrication"
+
+class MaintenanceAction(StrEnum):
+
+    """Supported maintenance activities."""
+
+    INSPECT = "inspect"
+
+    REPLACE = "replace"
+
+    SAMPLE = "sample"
+
+    CLEAN_AND_INSPECT = "clean_and_inspect"
+
+    PERFORMANCE_INSPECTION = "performance_inspection"
+
+    CALIBRATION_CHECK = "calibration_check"
+
+    FUNCTIONAL_INSPECTION = "functional_inspection"
+
+    FUNCTIONAL_TEST = "functional_test"
+
+class Severity(StrEnum):
+
+    """Severity assigned to alarms or overdue maintenance."""
+
+    INFO = "info"
+
+    WARNING = "warning"
+
+    MEDIUM = "medium"
+
+    HIGH = "high"
+
+    CRITICAL = "critical"
 
 class Plant(StrictBaseModel):
 
@@ -202,6 +238,134 @@ class Component(StrictBaseModel):
 
     ]
 
+class MaintenanceRule(StrictBaseModel):
+
+    """A scheduled or condition-based maintenance requirement."""
+
+    rule_id: Annotated[
+
+        str,
+
+        Field(pattern=r"^MR-MX\d{3}-[A-Z0-9_-]+$"),
+
+    ]
+
+    model_id: Annotated[
+
+        str,
+
+        Field(pattern=r"^MX-\d{3}$"),
+
+    ]
+
+    component_id: Annotated[
+
+        str,
+
+        Field(pattern=r"^[A-Z][A-Z0-9_]+$"),
+
+    ]
+
+    maintenance_action: MaintenanceAction
+
+    interval_operating_hours: PositiveInt | None = None
+
+    interval_months: PositiveInt | None = None
+
+    condition_trigger: NonEmptyString | None = None
+
+    severity_if_overdue: Severity
+
+    related_procedure_id: Annotated[
+
+        str,
+
+        Field(pattern=r"^SOP-[A-Z]+-\d{3}$"),
+
+    ] | None = None
+
+    @model_validator(mode="after")
+
+    def validate_trigger_exists(self) -> MaintenanceRule:
+
+        """Require at least one time, usage, or condition trigger."""
+
+        if (
+
+            self.interval_operating_hours is None
+
+            and self.interval_months is None
+
+            and self.condition_trigger is None
+
+        ):
+
+            raise ValueError(
+
+                "A maintenance rule requires at least one interval "
+
+                "or condition trigger."
+
+            )
+
+        return self
+
+class AlarmDefinition(StrictBaseModel):
+
+    """Canonical definition of a machine alarm or fault code."""
+
+    alarm_code: Annotated[
+
+        str,
+
+        Field(pattern=r"^[A-Z]{2}-\d{3}$"),
+
+    ]
+
+    applicable_models: Annotated[
+
+        list[Annotated[str, Field(pattern=r"^MX-\d{3}$")]],
+
+        Field(min_length=1),
+
+    ]
+
+    system: SystemType
+
+    severity: Severity
+
+    title: NonEmptyString
+
+    description: NonEmptyString
+
+    trigger_condition: NonEmptyString
+
+    possible_causes: Annotated[
+
+        list[NonEmptyString],
+
+        Field(min_length=1),
+
+    ]
+
+    diagnostic_checks: Annotated[
+
+        list[NonEmptyString],
+
+        Field(min_length=1),
+
+    ]
+
+    operator_action: NonEmptyString
+
+    maintenance_action: NonEmptyString
+
+    related_procedure_ids: list[
+
+        Annotated[str, Field(pattern=r"^SOP-[A-Z]+-\d{3}$")]
+
+    ]
+
 class PlantCollection(StrictBaseModel):
 
     """Validated contents of plants.yaml."""
@@ -231,3 +395,27 @@ class ComponentCollection(StrictBaseModel):
     """Validated contents of components.yaml."""
 
     components: Annotated[list[Component], Field(min_length=1)]
+
+class MaintenanceRuleCollection(StrictBaseModel):
+
+    """Validated contents of maintenance_rules.yaml."""
+
+    maintenance_rules: Annotated[
+
+        list[MaintenanceRule],
+
+        Field(min_length=1),
+
+    ]
+
+class AlarmCollection(StrictBaseModel):
+
+    """Validated contents of alarms.yaml."""
+
+    alarms: Annotated[
+
+        list[AlarmDefinition],
+
+        Field(min_length=1),
+
+    ]

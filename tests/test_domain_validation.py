@@ -1,3 +1,4 @@
+
 """Tests for canonical-domain loading and relationship validation."""
 
 from __future__ import annotations
@@ -12,6 +13,8 @@ from industrial_copilot.domain.loader import load_yaml_model
 
 from industrial_copilot.domain.models import (
 
+    AlarmCollection,
+
     ComponentCollection,
 
     MachineCollection,
@@ -19,6 +22,8 @@ from industrial_copilot.domain.models import (
     MachineModel,
 
     MachineModelCollection,
+
+    MaintenanceRuleCollection,
 
     PlantCollection,
 
@@ -43,6 +48,10 @@ def load_valid_collections() -> tuple[
     MachineCollection,
 
     ComponentCollection,
+
+    MaintenanceRuleCollection,
+
+    AlarmCollection,
 
 ]:
 
@@ -80,15 +89,55 @@ def load_valid_collections() -> tuple[
 
     )
 
-    return plants, machine_models, machines, components
+    maintenance_rules = load_yaml_model(
+
+        CANONICAL_DIR / "maintenance_rules.yaml",
+
+        MaintenanceRuleCollection,
+
+    )
+
+    alarms = load_yaml_model(
+
+        CANONICAL_DIR / "alarms.yaml",
+
+        AlarmCollection,
+
+    )
+
+    return (
+
+        plants,
+
+        machine_models,
+
+        machines,
+
+        components,
+
+        maintenance_rules,
+
+        alarms,
+
+    )
 
 def test_valid_canonical_data_passes_relationship_validation() -> None:
 
-    plants, machine_models, machines, components = (
+    (
 
-        load_valid_collections()
+        plants,
 
-    )
+        machine_models,
+
+        machines,
+
+        components,
+
+        maintenance_rules,
+
+        alarms,
+
+    ) = load_valid_collections()
 
     validate_canonical_relationships(
 
@@ -99,6 +148,10 @@ def test_valid_canonical_data_passes_relationship_validation() -> None:
         machines=machines,
 
         components=components,
+
+        maintenance_rules=maintenance_rules,
+
+        alarms=alarms,
 
     )
 
@@ -132,11 +185,21 @@ def test_negative_pressure_is_rejected() -> None:
 
 def test_unknown_machine_model_is_rejected() -> None:
 
-    plants, machine_models, machines, components = (
+    (
 
-        load_valid_collections()
+        plants,
 
-    )
+        machine_models,
+
+        machines,
+
+        components,
+
+        maintenance_rules,
+
+        alarms,
+
+    ) = load_valid_collections()
 
     invalid_machine = machines.machines[0].model_copy(
 
@@ -174,15 +237,29 @@ def test_unknown_machine_model_is_rejected() -> None:
 
             components=components,
 
+            maintenance_rules=maintenance_rules,
+
+            alarms=alarms,
+
         )
 
 def test_machine_line_must_match_plant() -> None:
 
-    plants, machine_models, machines, components = (
+    (
 
-        load_valid_collections()
+        plants,
 
-    )
+        machine_models,
+
+        machines,
+
+        components,
+
+        maintenance_rules,
+
+        alarms,
+
+    ) = load_valid_collections()
 
     invalid_machine = machines.machines[0].model_copy(
 
@@ -220,4 +297,107 @@ def test_machine_line_must_match_plant() -> None:
 
             components=components,
 
+            maintenance_rules=maintenance_rules,
+
+            alarms=alarms,
+
         )
+
+def test_maintenance_rule_requires_a_trigger() -> None:
+
+    invalid_rule = {
+
+        "rule_id": "MR-MX200-TEST",
+
+        "model_id": "MX-200",
+
+        "component_id": "HYD_RETURN_FILTER",
+
+        "maintenance_action": "replace",
+
+        "interval_operating_hours": None,
+
+        "interval_months": None,
+
+        "condition_trigger": None,
+
+        "severity_if_overdue": "high",
+
+        "related_procedure_id": "SOP-MNT-002",
+
+    }
+
+    with pytest.raises(
+
+        ValidationError,
+
+        match="requires at least one interval",
+
+    ):
+
+        MaintenanceRuleCollection.model_validate(
+
+            {"maintenance_rules": [invalid_rule]}
+
+        )
+
+def test_unknown_rule_component_is_rejected() -> None:
+
+    (
+
+        plants,
+
+        machine_models,
+
+        machines,
+
+        components,
+
+        maintenance_rules,
+
+        alarms,
+
+    ) = load_valid_collections()
+
+    invalid_rule = maintenance_rules.maintenance_rules[0].model_copy(
+
+        update={"component_id": "UNKNOWN_COMPONENT"}
+
+    )
+
+    invalid_rules = MaintenanceRuleCollection(
+
+        maintenance_rules=[
+
+            invalid_rule,
+
+            *maintenance_rules.maintenance_rules[1:],
+
+        ]
+
+    )
+
+    with pytest.raises(
+
+        ValueError,
+
+        match="references unknown component UNKNOWN_COMPONENT",
+
+    ):
+
+        validate_canonical_relationships(
+
+            plants=plants,
+
+            machine_models=machine_models,
+
+            machines=machines,
+
+            components=components,
+
+            maintenance_rules=invalid_rules,
+
+            alarms=alarms,
+
+        )
+

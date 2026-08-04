@@ -1,0 +1,369 @@
+
+maintenance_rules:
+
+  # MX-200
+
+  - rule_id: MR-MX200-HRF-INSPECT
+
+    model_id: MX-200
+
+    component_id: HYD_RETURN_FILTER
+
+    maintenance_action: inspect
+
+    interval_operating_hours: 500
+
+    interval_months: null
+
+    condition_trigger: differential_pressure_bar >= 1.0
+
+    severity_if_overdue: medium
+
+    related_procedure_id: SOP-MNT-001
+
+  - rule_id: MR-MX200-HRF-REPLACE
+
+    model_id: MX-200
+
+    component_id: HYD_RETURN_FILTER
+
+    maintenance_action: replace
+
+    interval_operating_hours: 1000
+
+    interval_months: 12
+
+    condition_trigger: differential_pressure_bar >= 1.5
+
+    severity_if_overdue: high
+
+    related_procedure_id: SOP-MNT-002
+
+  - rule_id: MR-MX200-OIL-SAMPLE
+
+    model_id: MX-200
+
+    component_id: HYD_OIL
+
+    maintenance_action: sample
+
+    interval_operating_hours: 1000
+
+    interval_months: 12
+
+    condition_trigger: null
+
+    severity_if_overdue: medium
+
+    related_procedure_id: SOP-MNT-001
+
+  - rule_id: MR-MX200-OIL-REPLACE
+
+    model_id: MX-200
+
+    component_id: HYD_OIL
+
+    maintenance_action: replace
+
+    interval_operating_hours: 4000
+
+    interval_months: 36
+
+    condition_trigger: oil_analysis_out_of_specification
+
+    severity_if_overdue: high
+
+    related_procedure_id: SOP-MNT-001
+
+  - rule_id: MR-MX200-PUMP-INSPECT
+
+    model_id: MX-200
+
+    component_id: HYD_PUMP
+
+    maintenance_action: performance_inspection
+
+    interval_operating_hours: 2000
+
+    interval_months: 24
+
+    condition_trigger: abnormal_noise_or_pressure_instability
+
+    severity_if_overdue: high
+
+    related_procedure_id: SOP-MNT-001
+
+  - rule_id: MR-MX200-SENSOR-CAL
+
+    model_id: MX-200
+
+    component_id: HYD_PRESSURE_SENSOR
+
+    maintenance_action: calibration_check
+
+    interval_operating_hours: 2000
+
+    interval_months: 24
+
+    condition_trigger: sensor_deviation_bar > 3
+
+    severity_if_overdue: high
+
+    related_procedure_id: SOP-MNT-003
+
+  - rule_id: MR-MX200-RELIEF-INSPECT
+
+    model_id: MX-200
+
+    component_id: HYD_RELIEF_VALVE
+
+    maintenance_action: functional_inspection
+
+    interval_operating_hours: 1000
+
+    interval_months: 12
+
+    condition_trigger: pressure_control_instability
+
+    severity_if_overdue: high
+
+    related_procedure_id: SOP-MNT-001
+
+  - rule_id: MR-MX200-COOLER-INSPECT
+
+    model_id: MX-200
+
+    component_id: COOL_OIL_COOLER
+
+    maintenance_action: clean_and_inspect
+
+    interval_operating_hours: 1000
+
+    interval_months: 12
+
+    condition_trigger: oil_temperature_c >= 70
+
+    severity_if_overdue: medium
+
+    related_procedure_id: SOP-MNT-001
+
+  - rule_id: MR-MX200-LIGHT-CURTAIN
+
+    model_id: MX-200
+
+    component_id: SAFE_LIGHT_CURTAIN
+
+    maintenance_action: functional_test
+
+    interval_operating_hours: 500
+
+    interval_months: 6
+
+    condition_trigger: null
+
+    severity_if_overdue: critical
+
+    related_procedure_id: SOP-OPS-001
+
+  - rule_id: MR-MX200-LUBE-INSPECT
+
+    model_id: MX-200
+
+    component_id: LUBE_GUIDE_SYSTEM
+
+    maintenance_action: inspect
+
+    interval_operating_hours: 250
+
+    interval_months: 3
+
+    condition_trigger: guide_friction_or_abnormal_noise
+
+    severity_if_overdue: medium
+
+    related_procedure_id: SOP-MNT-001
+
+  # MX-220
+
+  - rule_id: MR-MX220-HRF-INSPECT
+
+    model_id: MX-220
+
+    component_id: HYD_RETURN_FILTER
+
+    maintenance_action: inspect
+
+    interval_operating_hours: 450
+
+    interval_months: null
+
+    condition_trigger: differential_pressure_bar >= 1.0
+
+    severity_if_overdue: medium
+
+    related_procedure_id: SOP-MNT-001
+
+  - rule_id: MR-MX220-HRF-REPLACE
+
+    model_id: MX-220
+
+    component_id: HYD_RETURN_FILTER
+
+    maintenance_action: replace
+
+    interval_operating_hours: 900
+
+    interval_months: 12
+
+    condition_trigger: differential_pressure_bar >= 1.5
+
+    severity_if_overdue: high
+
+    related_procedure_id: SOP-MNT-002
+
+  - rule_id: MR-MX220-OIL-SAMPLE
+
+    model_id: MX-220
+
+    component_id: HYD_OIL
+
+    maintenance_action: sample
+
+    interval_operating_hours: 900
+
+    interval_months: 12
+
+    condition_trigger: null
+
+    severity_if_overdue: medium
+
+    related_procedure_id: SOP-MNT-001
+
+  - rule_id: MR-MX220-OIL-REPLACE
+
+    model_id: MX-220
+
+    component_id: HYD_OIL
+
+    maintenance_action: replace
+
+    interval_operating_hours: 3600
+
+    interval_months: 30
+
+    condition_trigger: oil_analysis_out_of_specification
+
+    severity_if_overdue: high
+
+    related_procedure_id: SOP-MNT-001
+
+  - rule_id: MR-MX220-PUMP-INSPECT
+
+    model_id: MX-220
+
+    component_id: HYD_PUMP
+
+    maintenance_action: performance_inspection
+
+    interval_operating_hours: 1800
+
+    interval_months: 20
+
+    condition_trigger: abnormal_noise_or_pressure_instability
+
+    severity_if_overdue: high
+
+    related_procedure_id: SOP-MNT-001
+
+  # MX-300
+
+  - rule_id: MR-MX300-HRF-INSPECT
+
+    model_id: MX-300
+
+    component_id: HYD_RETURN_FILTER
+
+    maintenance_action: inspect
+
+    interval_operating_hours: 400
+
+    interval_months: null
+
+    condition_trigger: differential_pressure_bar >= 1.0
+
+    severity_if_overdue: medium
+
+    related_procedure_id: SOP-MNT-001
+
+  - rule_id: MR-MX300-HRF-REPLACE
+
+    model_id: MX-300
+
+    component_id: HYD_RETURN_FILTER
+
+    maintenance_action: replace
+
+    interval_operating_hours: 750
+
+    interval_months: 10
+
+    condition_trigger: differential_pressure_bar >= 1.5
+
+    severity_if_overdue: high
+
+    related_procedure_id: SOP-MNT-002
+
+  - rule_id: MR-MX300-OIL-SAMPLE
+
+    model_id: MX-300
+
+    component_id: HYD_OIL
+
+    maintenance_action: sample
+
+    interval_operating_hours: 750
+
+    interval_months: 10
+
+    condition_trigger: null
+
+    severity_if_overdue: medium
+
+    related_procedure_id: SOP-MNT-001
+
+  - rule_id: MR-MX300-OIL-REPLACE
+
+    model_id: MX-300
+
+    component_id: HYD_OIL
+
+    maintenance_action: replace
+
+    interval_operating_hours: 3000
+
+    interval_months: 24
+
+    condition_trigger: oil_analysis_out_of_specification
+
+    severity_if_overdue: high
+
+    related_procedure_id: SOP-MNT-001
+
+  - rule_id: MR-MX300-PUMP-INSPECT
+
+    model_id: MX-300
+
+    component_id: HYD_PUMP
+
+    maintenance_action: performance_inspection
+
+    interval_operating_hours: 1500
+
+    interval_months: 18
+
+    condition_trigger: abnormal_noise_or_pressure_instability
+
+    severity_if_overdue: high
+
+    related_procedure_id: SOP-MNT-001
+

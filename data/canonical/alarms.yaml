@@ -1,0 +1,611 @@
+
+alarms:
+
+  - alarm_code: HX-417
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    system: hydraulics
+
+    severity: high
+
+    title: Hydraulic Pressure Below Operating Threshold
+
+    description: Hydraulic pressure remained below the required operating range during the production cycle.
+
+    trigger_condition: measured_pressure_below_model_operating_threshold
+
+    possible_causes:
+
+      - low_hydraulic_fluid_level
+
+      - return_filter_restriction
+
+      - hydraulic_pump_degradation
+
+      - internal_hydraulic_leakage
+
+      - pressure_relief_valve_misadjustment
+
+      - pressure_sensor_error
+
+    diagnostic_checks:
+
+      - verify_reservoir_fluid_level
+
+      - inspect_for_visible_hydraulic_leaks
+
+      - check_return_filter_differential_pressure
+
+      - measure_hydraulic_pump_discharge_pressure
+
+      - compare_pressure_sensor_reading_with_service_gauge
+
+    operator_action: Stop the production cycle and escalate the alarm to authorized maintenance personnel.
+
+    maintenance_action: Diagnose the hydraulic-pressure loss before returning the machine to production.
+
+    related_procedure_ids:
+
+      - SOP-MNT-001
+
+      - SOP-OPS-002
+
+  - alarm_code: HX-418
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    system: hydraulics
+
+    severity: high
+
+    title: Hydraulic Pressure Sensor Signal Implausible
+
+    description: The hydraulic-pressure signal was outside its plausible electrical or physical range.
+
+    trigger_condition: pressure_sensor_signal_outside_plausibility_range
+
+    possible_causes:
+
+      - loose_sensor_connector
+
+      - damaged_sensor_wiring
+
+      - pressure_sensor_drift
+
+      - failed_pressure_sensor
+
+      - control_input_fault
+
+    diagnostic_checks:
+
+      - inspect_sensor_connector
+
+      - inspect_sensor_wiring
+
+      - compare_sensor_value_with_service_gauge
+
+      - perform_sensor_calibration_check
+
+    operator_action: Stop automatic operation and notify maintenance personnel.
+
+    maintenance_action: Verify wiring and calibrate or replace the pressure sensor as required.
+
+    related_procedure_ids:
+
+      - SOP-MNT-003
+
+      - SOP-OPS-002
+
+  - alarm_code: HX-421
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    system: hydraulics
+
+    severity: warning
+
+    title: Return Filter Differential Pressure High
+
+    description: Differential pressure across the hydraulic return filter exceeded the normal inspection threshold.
+
+    trigger_condition: filter_differential_pressure_bar >= 1.0
+
+    possible_causes:
+
+      - contaminated_filter_element
+
+      - cold_high_viscosity_hydraulic_fluid
+
+      - restricted_return_line
+
+      - incorrect_filter_element
+
+    diagnostic_checks:
+
+      - verify_filter_differential_pressure
+
+      - inspect_hydraulic_fluid_temperature
+
+      - confirm_installed_filter_part_number
+
+      - inspect_return_line_for_restriction
+
+    operator_action: Complete the current safe cycle if permitted and request maintenance inspection.
+
+    maintenance_action: Inspect the filter and replace it when the replacement threshold or condition is met.
+
+    related_procedure_ids:
+
+      - SOP-MNT-001
+
+      - SOP-MNT-002
+
+  - alarm_code: HX-430
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    system: hydraulics
+
+    severity: warning
+
+    title: Hydraulic Reservoir Fluid Level Low
+
+    description: Hydraulic-fluid level fell below the normal operating range.
+
+    trigger_condition: reservoir_level_below_minimum_operating_mark
+
+    possible_causes:
+
+      - external_hydraulic_leak
+
+      - incomplete_refill
+
+      - internal_system_volume_change
+
+      - faulty_level_sensor
+
+    diagnostic_checks:
+
+      - inspect_reservoir_level_indicator
+
+      - inspect_machine_for_external_leaks
+
+      - verify_level_sensor_operation
+
+    operator_action: Suspend operation if the level continues to fall and notify maintenance.
+
+    maintenance_action: Identify the cause of fluid loss before restoring the approved fluid level.
+
+    related_procedure_ids:
+
+      - SOP-MNT-001
+
+      - SOP-OPS-002
+
+  - alarm_code: HX-471
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    system: hydraulics
+
+    severity: high
+
+    title: Hydraulic Oil Temperature High
+
+    description: Hydraulic-fluid temperature exceeded the normal operating limit.
+
+    trigger_condition: hydraulic_oil_temperature_above_model_limit
+
+    possible_causes:
+
+      - oil_cooler_fouling
+
+      - reduced_cooling_flow
+
+      - sustained_high_duty_operation
+
+      - low_reservoir_fluid_level
+
+      - internal_hydraulic_leakage
+
+    diagnostic_checks:
+
+      - verify_hydraulic_oil_temperature
+
+      - inspect_oil_cooler_condition
+
+      - verify_cooling_flow
+
+      - inspect_reservoir_fluid_level
+
+      - inspect_for_internal_pressure_loss
+
+    operator_action: Stop production and allow the system to cool under the approved shutdown procedure.
+
+    maintenance_action: Correct the cooling or hydraulic cause before restarting production.
+
+    related_procedure_ids:
+
+      - SOP-MNT-001
+
+      - SOP-OPS-002
+
+  - alarm_code: CL-118
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    system: cooling
+
+    severity: warning
+
+    title: Oil Cooler Flow Below Expected Level
+
+    description: Cooling-medium flow through the hydraulic oil cooler was below the expected range.
+
+    trigger_condition: oil_cooler_flow_below_configured_threshold
+
+    possible_causes:
+
+      - cooling_line_restriction
+
+      - fouled_heat_exchanger
+
+      - cooling_pump_degradation
+
+      - partially_closed_isolation_valve
+
+    diagnostic_checks:
+
+      - verify_cooling_flow
+
+      - inspect_cooling_lines
+
+      - inspect_heat_exchanger
+
+      - verify_valve_positions
+
+    operator_action: Reduce machine load where approved and request maintenance inspection.
+
+    maintenance_action: Restore the required cooling flow before sustained production.
+
+    related_procedure_ids:
+
+      - SOP-MNT-001
+
+      - SOP-OPS-002
+
+  - alarm_code: CL-121
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    system: cooling
+
+    severity: high
+
+    title: Cooling Circuit Outlet Temperature High
+
+    description: Cooling-circuit outlet temperature exceeded the configured limit.
+
+    trigger_condition: cooling_outlet_temperature_above_limit
+
+    possible_causes:
+
+      - insufficient_cooling_flow
+
+      - excessive_heat_load
+
+      - fouled_heat_exchanger
+
+      - elevated_inlet_temperature
+
+    diagnostic_checks:
+
+      - verify_inlet_and_outlet_temperatures
+
+      - verify_cooling_flow
+
+      - inspect_heat_exchanger_surfaces
+
+      - confirm_machine_duty_cycle
+
+    operator_action: Stop production if the temperature continues to rise.
+
+    maintenance_action: Correct the cooling-circuit fault before returning to full load.
+
+    related_procedure_ids:
+
+      - SOP-MNT-001
+
+      - SOP-OPS-002
+
+  - alarm_code: EX-312
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    system: electrical
+
+    severity: high
+
+    title: Main Motor Current Above Threshold
+
+    description: Main hydraulic-power-unit motor current exceeded its configured operating threshold.
+
+    trigger_condition: motor_current_above_model_threshold
+
+    possible_causes:
+
+      - hydraulic_pump_overload
+
+      - mechanical_binding
+
+      - electrical_supply_imbalance
+
+      - motor_fault
+
+    diagnostic_checks:
+
+      - verify_motor_current_per_phase
+
+      - inspect_hydraulic_pump_load
+
+      - inspect_for_mechanical_binding
+
+      - verify_supply_voltage
+
+    operator_action: Stop automatic production and notify electrical and maintenance personnel.
+
+    maintenance_action: Diagnose the electrical or mechanical overload before restarting.
+
+    related_procedure_ids:
+
+      - SOP-OPS-002
+
+  - alarm_code: EX-318
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    system: electrical
+
+    severity: critical
+
+    title: Main Motor Thermal Protection Active
+
+    description: Main motor thermal protection opened because the permitted thermal condition was exceeded.
+
+    trigger_condition: motor_thermal_protection_trip
+
+    possible_causes:
+
+      - sustained_motor_overload
+
+      - blocked_motor_cooling
+
+      - repeated_high_frequency_starts
+
+      - internal_motor_fault
+
+    diagnostic_checks:
+
+      - verify_motor_temperature
+
+      - inspect_motor_cooling_path
+
+      - review_recent_motor_load
+
+      - perform_authorized_electrical_inspection
+
+    operator_action: Do not attempt repeated restarts and escalate immediately.
+
+    maintenance_action: Determine and correct the overheating cause before resetting protection.
+
+    related_procedure_ids:
+
+      - SOP-HSE-001
+
+      - SOP-OPS-002
+
+  - alarm_code: SF-101
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    system: safety
+
+    severity: critical
+
+    title: Safety Circuit Not Ready
+
+    description: One or more required safety-circuit conditions were not satisfied.
+
+    trigger_condition: safety_chain_not_complete
+
+    possible_causes:
+
+      - emergency_stop_active
+
+      - guard_interlock_open
+
+      - light_curtain_not_ready
+
+      - safety_controller_fault
+
+    diagnostic_checks:
+
+      - inspect_emergency_stop_states
+
+      - inspect_guard_interlocks
+
+      - verify_light_curtain_status
+
+      - review_safety_controller_diagnostics
+
+    operator_action: Do not enable machine motion.
+
+    maintenance_action: Authorized personnel must identify and correct the safety-chain fault.
+
+    related_procedure_ids:
+
+      - SOP-HSE-001
+
+      - SOP-OPS-001
+
+  - alarm_code: SF-108
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    system: safety
+
+    severity: critical
+
+    title: Light Curtain Interrupted During Cycle Enable
+
+    description: The protected field was interrupted while hazardous motion was enabled or requested.
+
+    trigger_condition: light_curtain_interruption_during_cycle_enable
+
+    possible_causes:
+
+      - person_or_object_in_protected_field
+
+      - light_curtain_misalignment
+
+      - optical_contamination
+
+      - wiring_or_device_fault
+
+    diagnostic_checks:
+
+      - clear_protected_field
+
+      - inspect_light_curtain_alignment
+
+      - clean_optical_surfaces
+
+      - review_device_diagnostics
+
+    operator_action: Keep the machine stopped and clear the protected area.
+
+    maintenance_action: Verify the complete protective function before production resumes.
+
+    related_procedure_ids:
+
+      - SOP-HSE-001
+
+      - SOP-OPS-001
+
+  - alarm_code: SF-115
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+    system: safety
+
+    severity: critical
+
+    title: Guard Interlock Discrepancy
+
+    description: Guard-position signals did not agree with the expected interlock state.
+
+    trigger_condition: redundant_guard_interlock_signals_disagree
+
+    possible_causes:
+
+      - guard_not_fully_closed
+
+      - interlock_misalignment
+
+      - damaged_interlock_wiring
+
+      - failed_interlock_device
+
+    diagnostic_checks:
+
+      - verify_guard_position
+
+      - inspect_interlock_alignment
+
+      - inspect_interlock_wiring
+
+      - review_safety_controller_input_states
+
+    operator_action: Do not bypass the guard interlock or enable machine motion.
+
+    maintenance_action: Authorized personnel must correct and verify the protective-device fault.
+
+    related_procedure_ids:
+
+      - SOP-HSE-001
+
+      - SOP-OPS-001
+

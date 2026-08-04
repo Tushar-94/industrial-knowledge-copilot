@@ -17,6 +17,10 @@ from industrial_copilot.domain.models import (
 
     PlantCollection,
 
+    AlarmCollection,
+
+    MaintenanceRuleCollection,
+
 )
 
 from industrial_copilot.domain.validation import (
@@ -65,6 +69,22 @@ def main() -> None:
 
     )
 
+    maintenance_rules = load_yaml_model(
+
+        CANONICAL_DIR / "maintenance_rules.yaml",
+
+        MaintenanceRuleCollection,
+
+    )
+
+    alarms = load_yaml_model(
+
+        CANONICAL_DIR / "alarms.yaml",
+
+        AlarmCollection,
+
+    )
+
     validate_canonical_relationships(
 
         plants=plants,
@@ -74,6 +94,10 @@ def main() -> None:
         machines=machines,
 
         components=components,
+
+        maintenance_rules=maintenance_rules,
+
+        alarms=alarms,
 
     )
 
@@ -86,6 +110,16 @@ def main() -> None:
     print(f"Physical machines: {len(machines.machines)}")
 
     print(f"Components: {len(components.components)}")
+
+    print(
+
+        f"Maintenance rules: "
+
+        f"{len(maintenance_rules.maintenance_rules)}"
+
+    )
+
+    print(f"Alarm definitions: {len(alarms.alarms)}")
 
 if __name__ == "__main__":
 
