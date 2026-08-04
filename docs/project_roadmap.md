@@ -41,9 +41,9 @@ Build a realistic, evaluation-driven RAG and agentic AI system for technical ope
 
 - [x] Build the embedding laboratory
 
-- [ ] Implement canonical data files
+- [x] Implement canonical data files
 
-- [ ] Validate canonical data
+- [x] Validate canonical data
 
 - [ ] Generate synthetic technical documents
 
@@ -99,5 +99,5 @@ Build a realistic, evaluation-driven RAG and agentic AI system for technical ope
 
 ## Current milestone
 
-Canonical industrial data implementation.
+Maintenance rules, alarms, parts, and procedures.
 

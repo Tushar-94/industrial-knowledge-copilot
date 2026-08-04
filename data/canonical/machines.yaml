@@ -1,0 +1,135 @@
+
+machines:
+
+  - machine_id: M001
+
+    model_id: MX-200
+
+    serial_number: MX2-230842
+
+    plant_id: BER
+
+    production_line: BER-L1
+
+    installation_date: 2023-04-17
+
+    current_operating_hours: 14260
+
+    status: active
+
+    criticality: high
+
+    downtime_cost_eur_per_hour: 1250
+
+    production_rate_units_per_hour: 145
+
+  - machine_id: M002
+
+    model_id: MX-200
+
+    serial_number: MX2-230917
+
+    plant_id: BER
+
+    production_line: BER-L2
+
+    installation_date: 2023-06-12
+
+    current_operating_hours: 11840
+
+    status: active
+
+    criticality: medium
+
+    downtime_cost_eur_per_hour: 900
+
+    production_rate_units_per_hour: 118
+
+  - machine_id: M003
+
+    model_id: MX-300
+
+    serial_number: MX3-240116
+
+    plant_id: BER
+
+    production_line: BER-L3
+
+    installation_date: 2024-02-05
+
+    current_operating_hours: 17420
+
+    status: active
+
+    criticality: critical
+
+    downtime_cost_eur_per_hour: 2300
+
+    production_rate_units_per_hour: 190
+
+  - machine_id: M004
+
+    model_id: MX-220
+
+    serial_number: MX2-231204
+
+    plant_id: LEJ
+
+    production_line: LEJ-L1
+
+    installation_date: 2023-11-20
+
+    current_operating_hours: 9780
+
+    status: active
+
+    criticality: high
+
+    downtime_cost_eur_per_hour: 1400
+
+    production_rate_units_per_hour: 170
+
+  - machine_id: M005
+
+    model_id: MX-300
+
+    serial_number: MX3-240308
+
+    plant_id: HAM
+
+    production_line: HAM-L1
+
+    installation_date: 2024-05-13
+
+    current_operating_hours: 12650
+
+    status: maintenance
+
+    criticality: critical
+
+    downtime_cost_eur_per_hour: 2600
+
+    production_rate_units_per_hour: 205
+
+  - machine_id: M006
+
+    model_id: MX-200
+
+    serial_number: MX2-231021
+
+    plant_id: LEJ
+
+    production_line: LEJ-L2
+
+    installation_date: 2023-09-04
+
+    current_operating_hours: 7930
+
+    status: active
+
+    criticality: medium
+
+    downtime_cost_eur_per_hour: 850
+
+    production_rate_units_per_hour: 112
+

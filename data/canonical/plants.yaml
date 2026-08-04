@@ -1,0 +1,39 @@
+
+plants:
+
+  - plant_id: BER
+
+    name: NovaTech Berlin Plant
+
+    city: Berlin
+
+    country_code: DE
+
+    timezone: Europe/Berlin
+
+    production_focus: precision_metal_forming
+
+  - plant_id: LEJ
+
+    name: NovaTech Leipzig Plant
+
+    city: Leipzig
+
+    country_code: DE
+
+    timezone: Europe/Berlin
+
+    production_focus: high_volume_component_production
+
+  - plant_id: HAM
+
+    name: NovaTech Hamburg Plant
+
+    city: Hamburg
+
+    country_code: DE
+
+    timezone: Europe/Berlin
+
+    production_focus: heavy_forming_and_prototyping
+

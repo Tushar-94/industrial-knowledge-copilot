@@ -29,6 +29,10 @@ dependencies = [
 
     "sentence-transformers>=5.0,<6.0",
 
+    "pydantic>=2.12,<3.0",
+
+    "PyYAML>=6.0,<7.0",
+
 ]
 
 [project.optional-dependencies]

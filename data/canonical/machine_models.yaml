@@ -1,0 +1,57 @@
+
+machine_models:
+
+  - model_id: MX-200
+
+    manufacturer: NovaTech
+
+    machine_type: hydraulic_forming_press
+
+    rated_force_kn: 2000
+
+    max_hydraulic_pressure_bar: 210
+
+    reservoir_capacity_l: 420
+
+    motor_power_kw: 45
+
+    nominal_cycle_time_s: 18
+
+    supported_since: 2022-01-01
+
+  - model_id: MX-220
+
+    manufacturer: NovaTech
+
+    machine_type: hydraulic_forming_press
+
+    rated_force_kn: 2200
+
+    max_hydraulic_pressure_bar: 225
+
+    reservoir_capacity_l: 480
+
+    motor_power_kw: 55
+
+    nominal_cycle_time_s: 16
+
+    supported_since: 2023-01-01
+
+  - model_id: MX-300
+
+    manufacturer: NovaTech
+
+    machine_type: servo_hydraulic_forming_press
+
+    rated_force_kn: 3000
+
+    max_hydraulic_pressure_bar: 250
+
+    reservoir_capacity_l: 600
+
+    motor_power_kw: 75
+
+    nominal_cycle_time_s: 14
+
+    supported_since: 2024-01-01
+

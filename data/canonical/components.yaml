@@ -1,0 +1,163 @@
+
+components:
+
+  - component_id: HYD_RETURN_FILTER
+
+    name: Hydraulic Return-Line Filter
+
+    system: hydraulics
+
+    description: Removes particulate contamination from hydraulic fluid returning to the reservoir.
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+  - component_id: HYD_PUMP
+
+    name: Hydraulic Pump
+
+    system: hydraulics
+
+    description: Supplies hydraulic flow and pressure to the forming system.
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+  - component_id: HYD_PRESSURE_SENSOR
+
+    name: Hydraulic Pressure Sensor
+
+    system: hydraulics
+
+    description: Measures hydraulic operating pressure for control and diagnostic functions.
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+  - component_id: HYD_RELIEF_VALVE
+
+    name: Hydraulic Pressure Relief Valve
+
+    system: hydraulics
+
+    description: Limits hydraulic-system pressure by diverting excess flow.
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+  - component_id: HYD_RESERVOIR
+
+    name: Hydraulic Reservoir
+
+    system: hydraulics
+
+    description: Stores and conditions the machine's hydraulic fluid.
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+  - component_id: HYD_OIL
+
+    name: Hydraulic Fluid
+
+    system: hydraulics
+
+    description: Transfers energy, lubricates components, and removes heat from the hydraulic system.
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+  - component_id: COOL_OIL_COOLER
+
+    name: Hydraulic Oil Cooler
+
+    system: cooling
+
+    description: Removes excess heat from hydraulic fluid during machine operation.
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+  - component_id: ELEC_MAIN_MOTOR
+
+    name: Main Electric Motor
+
+    system: electrical
+
+    description: Drives the hydraulic power unit.
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+  - component_id: SAFE_LIGHT_CURTAIN
+
+    name: Safety Light Curtain
+
+    system: safety
+
+    description: Detects entry into the protected operating area and prevents hazardous machine motion.
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
+  - component_id: LUBE_GUIDE_SYSTEM
+
+    name: Guide Lubrication System
+
+    system: lubrication
+
+    description: Delivers lubricant to press-guide surfaces to reduce friction and wear.
+
+    applicable_models:
+
+      - MX-200
+
+      - MX-220
+
+      - MX-300
+
