@@ -10,6 +10,12 @@ from industrial_copilot.document_generation.manual import (
 
 )
 
+from industrial_copilot.document_generation.troubleshooting import (
+
+    generate_troubleshooting_markdown,
+
+)
+
 from industrial_copilot.domain.models import DocumentType
 
 from industrial_copilot.domain.repository import (
@@ -46,19 +52,37 @@ def main() -> None:
 
             document.document_type
 
-            != DocumentType.OPERATION_MAINTENANCE_MANUAL
+            == DocumentType.OPERATION_MAINTENANCE_MANUAL
 
         ):
 
+            markdown = generate_manual_markdown(
+
+                repository=repository,
+
+                document=document,
+
+            )
+
+        elif (
+
+            document.document_type
+
+            == DocumentType.TROUBLESHOOTING_GUIDE
+
+        ):
+
+            markdown = generate_troubleshooting_markdown(
+
+                repository=repository,
+
+                document=document,
+
+            )
+
+        else:
+
             continue
-
-        markdown = generate_manual_markdown(
-
-            repository=repository,
-
-            document=document,
-
-        )
 
         output_path = OUTPUT_DIR / f"{document.document_id}.md"
 
