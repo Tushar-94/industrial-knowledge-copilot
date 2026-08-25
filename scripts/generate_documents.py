@@ -10,6 +10,12 @@ from industrial_copilot.document_generation.manual import (
 
 )
 
+from industrial_copilot.document_generation.sop import (
+
+    generate_sop_markdown,
+
+)
+
 from industrial_copilot.document_generation.troubleshooting import (
 
     generate_troubleshooting_markdown,
@@ -80,9 +86,25 @@ def main() -> None:
 
             )
 
+        elif (
+
+            document.document_type
+
+            == DocumentType.STANDARD_OPERATING_PROCEDURE
+
+        ):
+
+            markdown = generate_sop_markdown(
+
+                repository=repository,
+
+                document=document,
+
+        )
+
         else:
 
-            continue
+          continue
 
         output_path = OUTPUT_DIR / f"{document.document_id}.md"
 
