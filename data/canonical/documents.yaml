@@ -263,7 +263,13 @@ documents:
 
     document_type: standard_operating_procedure
 
-    model_ids: []
+    model_ids:
+
+     - MX-200
+
+     - MX-220
+
+     - MX-300
 
     procedure_ids:
 
@@ -287,7 +293,13 @@ documents:
 
     document_type: standard_operating_procedure
 
-    model_ids: []
+    model_ids:
+
+     - MX-200
+
+     - MX-220
+
+     - MX-300
 
     procedure_ids:
 
@@ -311,7 +323,13 @@ documents:
 
     document_type: standard_operating_procedure
 
-    model_ids: []
+    model_ids:
+
+     - MX-200
+
+     - MX-220
+
+     - MX-300
 
     procedure_ids:
 
@@ -339,7 +357,13 @@ documents:
 
     document_type: standard_operating_procedure
 
-    model_ids: []
+    model_ids:
+
+     - MX-200
+
+     - MX-220
+
+     - MX-300
 
     procedure_ids:
 
@@ -369,7 +393,13 @@ documents:
 
     document_type: standard_operating_procedure
 
-    model_ids: []
+    model_ids:
+
+     - MX-200
+
+     - MX-220
+
+     - MX-300
 
     procedure_ids:
 
@@ -393,7 +423,13 @@ documents:
 
     document_type: standard_operating_procedure
 
-    model_ids: []
+    model_ids:
+
+     - MX-200
+
+     - MX-220
+
+     - MX-300
 
     procedure_ids:
 

@@ -443,6 +443,14 @@ def validate_canonical_relationships(
 
     )
 
+    procedures_by_id = {
+
+        procedure.procedure_id: procedure
+
+        for procedure in procedures.procedures
+
+    }
+
     for document in documents.documents:
 
         unknown_models = sorted(
@@ -498,6 +506,56 @@ def validate_canonical_relationships(
                 f"{', '.join(unknown_source_entities)}."
 
             )
+
+        if (
+
+            document.document_type.value
+
+            == "standard_operating_procedure"
+
+        ):
+
+            for procedure_id in document.procedure_ids:
+
+                procedure = procedures_by_id.get(
+
+                    procedure_id
+
+                )
+
+                if procedure is None:
+
+                    continue
+
+                document_models = set(
+
+                    document.model_ids
+
+                )
+
+                procedure_models = set(
+
+                    procedure.applicable_models
+
+                )
+
+                if document_models != procedure_models:
+
+                    errors.append(
+
+                        f"Document {document.document_id} model scope "
+
+                        f"does not match procedure {procedure_id}: "
+
+                        f"document models="
+
+                        f"{sorted(document_models)}, "
+
+                        f"procedure models="
+
+                        f"{sorted(procedure_models)}."
+
+                    )       
 
     if errors:
 

@@ -61,6 +61,10 @@ htmlcov/
 
 *.log
 
+# Local database folder
+
+.qdrant/
+
 # Local vector database and generated runtime data
 
 qdrant_storage/

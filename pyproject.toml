@@ -35,6 +35,8 @@ dependencies = [
 
     "rank-bm25>=0.2,<1.0",
 
+    "qdrant-client>=1.19,<2.0",
+
 ]
 
 [project.optional-dependencies]

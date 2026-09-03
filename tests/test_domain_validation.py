@@ -727,3 +727,111 @@ def test_document_unknown_source_entity_is_rejected() -> None:
 
         )
 
+def test_sop_document_model_scope_must_match_procedure() -> None:
+
+    (
+
+        plants,
+
+        machine_models,
+
+        machines,
+
+        components,
+
+        maintenance_rules,
+
+        alarms,
+
+        parts,
+
+        procedures,
+
+        documents,
+
+    ) = load_valid_collections()
+
+    sop_index = next(
+
+        index
+
+        for index, document in enumerate(
+
+            documents.documents
+
+        )
+
+        if document.document_id == "SOP-MNT-002"
+
+    )
+
+    sop_document = documents.documents[
+
+        sop_index
+
+    ]
+
+    invalid_document = sop_document.model_copy(
+
+        update={
+
+            "model_ids": ["MX-200"],
+
+        }
+
+    )
+
+    invalid_document_list = list(
+
+        documents.documents
+
+    )
+
+    invalid_document_list[
+
+        sop_index
+
+    ] = invalid_document
+
+    invalid_documents = DocumentCollection(
+
+        documents=invalid_document_list
+
+    )
+
+    with pytest.raises(
+
+        ValueError,
+
+        match=(
+
+            "Document SOP-MNT-002 model scope "
+
+            "does not match procedure SOP-MNT-002"
+
+        ),
+
+    ):
+
+        validate_all(
+
+            plants=plants,
+
+            machine_models=machine_models,
+
+            machines=machines,
+
+            components=components,
+
+            maintenance_rules=maintenance_rules,
+
+            alarms=alarms,
+
+            parts=parts,
+
+            procedures=procedures,
+
+            documents=invalid_documents,
+
+        )
+
