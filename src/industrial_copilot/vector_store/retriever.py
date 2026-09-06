@@ -68,6 +68,10 @@ def search_qdrant(
 
     machine_model: str | None = None,
 
+    alarm_code: str | None = None,
+
+    contains_spare_parts: bool | None = None,
+
 ) -> list[QdrantSearchResult]:
 
     """Search Qdrant using one dense query embedding."""
@@ -80,29 +84,71 @@ def search_qdrant(
 
         )
 
-    query_filter = None
+    conditions: list[FieldCondition] = []
 
     if machine_model is not None:
 
-        query_filter = Filter(
+        conditions.append(
 
-            must=[
+            FieldCondition(
 
-                FieldCondition(
+               key="machine_models",
 
-                    key="machine_models",
+               match=MatchValue(
 
-                    match=MatchValue(
+                value=machine_model
 
-                        value=machine_model
+               ),
 
-                    ),
-
-                )
-
-            ]
+            )
 
         )
+
+    if alarm_code is not None:
+
+        conditions.append(
+
+            FieldCondition(
+
+               key="alarm_codes",
+
+               match=MatchValue(
+
+                value=alarm_code
+
+               ),
+
+            )
+
+        )
+
+    if contains_spare_parts is not None:
+
+        conditions.append(
+
+            FieldCondition(
+
+                key="contains_spare_parts",
+
+                match=MatchValue(
+
+                 value=contains_spare_parts
+
+                ),
+
+            )
+
+        )
+
+    query_filter = (
+
+        Filter(must=conditions)
+
+        if conditions
+
+        else None
+
+    )
 
     response = client.query_points(
 

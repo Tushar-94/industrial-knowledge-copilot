@@ -127,3 +127,43 @@ def test_maintenance_filter_query_is_not_parts_lookup() -> None:
     )
 
     assert analysis.intent == QueryIntent.GENERAL
+
+def test_procurement_language_is_parts_lookup() -> None:
+
+    analysis = analyze_query(
+
+        "I need to order a return-line filter for MX-300."
+
+    )
+
+    assert analysis.intent == QueryIntent.PARTS_LOOKUP
+
+def test_sensor_part_lookup_is_parts_lookup() -> None:
+
+    analysis = analyze_query(
+
+        "Which pressure sensor part is suitable for MX-220?"
+
+    )
+
+    assert analysis.intent == QueryIntent.PARTS_LOOKUP
+
+def test_filter_element_order_is_parts_lookup() -> None:
+
+    analysis = analyze_query(
+
+        "Which filter element should purchasing order for MX-300?"
+
+    )
+
+    assert analysis.intent == QueryIntent.PARTS_LOOKUP
+
+def test_buy_language_is_parts_lookup() -> None:
+
+    analysis = analyze_query(
+
+        "What filter element should we buy for MX-300?"
+
+    )
+
+    assert analysis.intent == QueryIntent.PARTS_LOOKUP

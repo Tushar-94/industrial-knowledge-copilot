@@ -36,6 +36,8 @@ class Chunk(BaseModel):
 
     related_procedures: list[str] = Field(default_factory=list)
 
+    part_numbers: list[str] = Field(default_factory=list)
+
     alarm_codes: list[str] = Field(default_factory=list)
 
     embedding_text: str = Field(min_length=1)

@@ -82,7 +82,7 @@ def _detect_intent(query: str) -> QueryIntent:
 
     normalized = query.lower()
 
-    parts_phrases = (
+    explicit_parts_phrases = (
 
         "spare part",
 
@@ -106,7 +106,97 @@ def _detect_intent(query: str) -> QueryIntent:
 
         phrase in normalized
 
-        for phrase in parts_phrases
+        for phrase in explicit_parts_phrases
+
+    ):
+
+        return QueryIntent.PARTS_LOOKUP
+
+    procurement_terms = (
+
+        "buy",
+
+        "buying",
+
+        "order",
+
+        "ordering",
+
+        "purchase",
+
+        "purchasing",
+
+        "procure",
+
+        "procurement",
+
+    )
+
+    part_terms = (
+
+        "filter",
+
+        "filter element",
+
+        "sensor",
+
+        "part",
+
+        "component",
+
+        "service kit",
+
+        "seal",
+
+    )
+
+    compatibility_terms = (
+
+        "compatible",
+
+        "suitable",
+
+        "fits",
+
+        "fit",
+
+    )
+
+    has_procurement_term = any(
+
+        term in normalized
+
+        for term in procurement_terms
+
+    )
+
+    has_part_term = any(
+
+        term in normalized
+
+        for term in part_terms
+
+    )
+
+    has_compatibility_term = any(
+
+        term in normalized
+
+        for term in compatibility_terms
+
+    )
+
+    if (
+
+        has_part_term
+
+        and (
+
+            has_procurement_term
+
+            or has_compatibility_term
+
+        )
 
     ):
 

@@ -25,7 +25,6 @@ The objective is to capture not only the final implementation, but also the engi
 The retrieval system was developed experimentally.
 
 Each architectural change followed the same process:
-
 1. Build the simplest reasonable retrieval approach.
 2. Evaluate it using a reproducible benchmark.
 3. Inspect concrete failures.
@@ -114,7 +113,6 @@ Top-K results
 Because embeddings were normalized, similarity could be calculated efficiently with vector dot products.
 
 At this stage there was:
-
 * no BM25,
 * no hybrid search,
 * no query router,
@@ -436,13 +434,11 @@ MRR rewards systems that rank relevant evidence higher.
 Examples:
 ```txt
 Relevant rank = 1 -> reciprocal rank = 1.00
-
 Relevant rank = 2 -> reciprocal rank = 0.50
-
 Relevant rank = 3 -> reciprocal rank = 0.33
-
 Miss -> reciprocal rank = 0
 ```
+
 The mean is calculated across all benchmark cases.
 
 ---
@@ -1155,10 +1151,15 @@ GENERAL
 Examples of phrases that indicate parts lookup include concepts such as:
 ```txt
 spare part
+
 part number
+
 replacement part
+
 replacement filter
+
 replacement sensor
+
 which part
 ```
 

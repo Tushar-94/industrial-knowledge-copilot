@@ -72,6 +72,16 @@ def _chunk_payload(
 
         "embedding_text": chunk.embedding_text,
 
+        "related_components": chunk.related_components,
+
+        "related_procedures": chunk.related_procedures,
+
+        "part_numbers": chunk.part_numbers,
+
+        "contains_spare_parts": bool(chunk.part_numbers),
+
+        "alarm_codes": chunk.alarm_codes,
+
     }
 
 def build_points(
