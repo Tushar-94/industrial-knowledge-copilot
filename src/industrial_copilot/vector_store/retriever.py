@@ -72,6 +72,10 @@ def search_qdrant(
 
     contains_spare_parts: bool | None = None,
 
+    procedure_id: str | None = None,
+
+    part_number: str | None = None,
+
 ) -> list[QdrantSearchResult]:
 
     """Search Qdrant using one dense query embedding."""
@@ -133,6 +137,43 @@ def search_qdrant(
                 match=MatchValue(
 
                  value=contains_spare_parts
+
+                ),
+
+            )
+
+        )
+
+
+    if procedure_id is not None:
+
+        conditions.append(
+
+            FieldCondition(
+
+                key="document_id",
+
+                match=MatchValue(
+
+                    value=procedure_id
+
+                ),
+
+            )
+
+        )
+
+    if part_number is not None:
+
+        conditions.append(
+
+            FieldCondition(
+
+                key="part_numbers",
+
+                match=MatchValue(
+
+                    value=part_number
 
                 ),
 

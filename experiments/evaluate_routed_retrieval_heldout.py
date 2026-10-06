@@ -40,6 +40,10 @@ from industrial_copilot.retrieval.hybrid_retriever import (
 
     HybridRetriever,
 
+    adapt_qdrant_results,
+
+    build_qdrant_constraints,
+
 )
 
 from industrial_copilot.retrieval.identifier_boost import (
@@ -48,9 +52,17 @@ from industrial_copilot.retrieval.identifier_boost import (
 
 )
 
-from industrial_copilot.retrieval.in_memory import (
+from industrial_copilot.vector_store.client import (
 
-    search_embeddings,
+    create_qdrant_client,
+
+    ensure_collection,
+
+)
+
+from industrial_copilot.vector_store.retriever import (
+
+    search_qdrant,
 
 )
 
@@ -116,13 +128,23 @@ def main() -> None:
 
     embedder = Embedder()
 
-    chunk_embeddings = embedder.embed_chunks(chunks)
+    client = create_qdrant_client()
+
+    ensure_collection(client)
+
+    chunks_by_id = {
+
+        chunk.chunk_id: chunk
+
+        for chunk in chunks
+
+    }
 
     hybrid_retriever = HybridRetriever(
 
         chunks=chunks,
 
-        chunk_embeddings=chunk_embeddings,
+        client=client,
 
     )
 
@@ -150,6 +172,8 @@ def main() -> None:
 
                 query_embedding=query_embedding,
 
+                analysis=decision.analysis,
+
                 top_k=20,
 
             )
@@ -164,15 +188,37 @@ def main() -> None:
 
         else:
 
-            results = search_embeddings(
+            constraints = build_qdrant_constraints(
 
-                chunks=chunks,
+                decision.analysis
 
-                chunk_embeddings=chunk_embeddings,
+            )
+
+            qdrant_results = search_qdrant(
+
+                client=client,
 
                 query_embedding=query_embedding,
 
                 top_k=5,
+
+                machine_model=constraints.machine_model,
+
+                alarm_code=constraints.alarm_code,
+
+                procedure_id=constraints.procedure_id,
+
+                part_number=constraints.part_number,
+
+                contains_spare_parts=constraints.contains_spare_parts,
+
+            )
+
+            results = adapt_qdrant_results(
+
+                qdrant_results=qdrant_results,
+
+                chunks_by_id=chunks_by_id,
 
             )
 

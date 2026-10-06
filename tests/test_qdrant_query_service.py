@@ -238,3 +238,82 @@ def test_parts_lookup_forwards_spare_parts_filter(
 
     assert captured["contains_spare_parts"] is True
 
+def test_procedure_id_is_forwarded_to_qdrant(
+
+    monkeypatch,
+
+) -> None:
+
+    captured: dict[str, object] = {}
+
+    def fake_search_qdrant(**kwargs):
+
+        captured.update(kwargs)
+
+        return []
+
+    monkeypatch.setattr(
+
+        query_service,
+
+        "search_qdrant",
+
+        fake_search_qdrant,
+
+    )
+
+    query_service.retrieve_query(
+
+        query="What does SOP-MNT-002 cover?",
+
+        client=object(),
+
+        embedder=FakeEmbedder(),
+
+    )
+
+    assert captured["procedure_id"] == "SOP-MNT-002"
+
+def test_part_number_is_forwarded_to_qdrant(
+
+    monkeypatch,
+
+) -> None:
+
+    captured: dict[str, object] = {}
+
+    def fake_search_qdrant(**kwargs):
+
+        captured.update(kwargs)
+
+        return []
+
+    monkeypatch.setattr(
+
+        query_service,
+
+        "search_qdrant",
+
+        fake_search_qdrant,
+
+    )
+
+    query_service.retrieve_query(
+
+        query=(
+
+            "Is HF-300-R10 compatible "
+
+            "with MX-300?"
+
+        ),
+
+        client=object(),
+
+        embedder=FakeEmbedder(),
+
+    )
+
+    assert captured["machine_model"] == "MX-300"
+
+    assert captured["part_number"] == "HF-300-R10"

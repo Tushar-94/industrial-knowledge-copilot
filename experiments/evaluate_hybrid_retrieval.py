@@ -12,6 +12,20 @@ from industrial_copilot.domain.repository import (
 
 )
 
+from industrial_copilot.retrieval.query_analyzer import (
+
+    analyze_query,
+
+)
+
+from industrial_copilot.vector_store.client import (
+
+    create_qdrant_client,
+
+    ensure_collection,
+
+)
+
 from industrial_copilot.evaluation.benchmark import (
 
     RETRIEVAL_BENCHMARK,
@@ -86,13 +100,15 @@ def main() -> None:
 
     embedder = Embedder()
 
-    chunk_embeddings = embedder.embed_chunks(chunks)
+    client = create_qdrant_client()
+
+    ensure_collection(client)
 
     retriever = HybridRetriever(
 
         chunks=chunks,
 
-        chunk_embeddings=chunk_embeddings,
+        client=client,
 
     )
 
@@ -106,11 +122,17 @@ def main() -> None:
 
         )
 
+        analysis = analyze_query(
+            case.query
+         )
+
         results = retriever.search(
 
             query=case.query,
 
             query_embedding=query_embedding,
+
+            analysis=analysis,
 
             top_k=5,
 

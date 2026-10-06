@@ -64,6 +64,18 @@ def retrieve_query(
 
     )
 
+    procedure_id = None
+
+    if len(analysis.procedure_ids) == 1:
+        procedure_id = analysis.procedure_ids[0]
+
+    part_number = None
+
+    if len(analysis.part_numbers) == 1:
+        part_number = analysis.part_numbers[0]
+
+    
+
     return search_qdrant(
 
         client=client,
@@ -77,5 +89,9 @@ def retrieve_query(
         alarm_code=alarm_code,
 
         contains_spare_parts=contains_spare_parts,
+
+        procedure_id=procedure_id,
+
+        part_number=part_number,
 
     )
