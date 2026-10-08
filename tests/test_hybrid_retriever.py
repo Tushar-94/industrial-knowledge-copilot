@@ -22,6 +22,8 @@ def make_chunk(
 
     machine_models: list[str] | None = None,
 
+    part_numbers: list[str] | None = None,
+
 ) -> Chunk:
 
     return Chunk(
@@ -39,6 +41,8 @@ def make_chunk(
         section_title="Test Section",
 
         heading_path=["Test Section"],
+
+        part_numbers=part_numbers or [],
 
         revision="1.0",
 
@@ -181,3 +185,107 @@ def test_hybrid_retriever_uses_qdrant_dense_results(
     assert captured["alarm_code"] == "HX-417"
 
     assert results[0].chunk.chunk_id == "exact"
+
+def test_hybrid_retriever_excludes_lexical_results_outside_constraints(
+
+    monkeypatch,
+
+) -> None:
+
+    from industrial_copilot.retrieval import hybrid_retriever
+
+    eligible = make_chunk(
+
+        chunk_id="mx300-filter",
+
+        text="Replacement filter for the MX-300.",
+
+        machine_models=["MX-300"],
+
+        part_numbers=["HF-300-R10"],
+
+    )
+
+    ineligible = make_chunk(
+
+        chunk_id="mx200-filter",
+
+        text=(
+
+            "MX-300 replacement filter compatible "
+
+            "replacement filter MX-300."
+
+        ),
+
+        machine_models=["MX-200"],
+
+    )
+
+    chunks = [eligible, ineligible]
+
+    def fake_search_qdrant(**kwargs):
+
+        return [
+
+            make_qdrant_result(
+
+                chunk_id="mx300-filter",
+
+                score=0.8,
+
+            )
+
+        ]
+
+    monkeypatch.setattr(
+
+        hybrid_retriever,
+
+        "search_qdrant",
+
+        fake_search_qdrant,
+
+    )
+
+    retriever = hybrid_retriever.HybridRetriever(
+
+        chunks=chunks,
+
+        client=object(),
+
+    )
+
+    analysis = analyze_query(
+
+        "Which replacement filter is compatible with MX-300?"
+
+    )
+
+    results = retriever.search(
+
+        query="Which replacement filter is compatible with MX-300?",
+
+        query_embedding=np.array(
+
+            [0.1, 0.2, 0.3],
+
+            dtype=np.float32,
+
+        ),
+
+        analysis=analysis,
+
+        top_k=2,
+
+        candidate_k=2,
+
+    )
+
+    assert all(
+
+        "MX-300" in result.chunk.machine_models
+
+        for result in results
+
+    )

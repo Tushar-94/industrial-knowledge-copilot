@@ -6,8 +6,6 @@ import re
 
 from dataclasses import dataclass
 
-import numpy as np
-
 from rank_bm25 import BM25Okapi
 
 from industrial_copilot.retrieval.models import Chunk
@@ -84,9 +82,11 @@ class BM25Retriever:
 
         top_k: int = 5,
 
+        eligible_chunk_ids: set[str] | None = None,
+
     ) -> list[LexicalSearchResult]:
 
-        """Return the highest-scoring BM25 chunks."""
+        """Return the highest-scoring eligible BM25 chunks."""
 
         if top_k <= 0:
 
@@ -104,11 +104,31 @@ class BM25Retriever:
 
         )
 
-        ranked_indices = (
+        eligible_indices = [
 
-            np.argsort(scores)[::-1][:top_k]
+            index
 
-        )
+            for index, chunk in enumerate(self.chunks)
+
+            if (
+
+                eligible_chunk_ids is None
+
+                or chunk.chunk_id in eligible_chunk_ids
+
+            )
+
+        ]
+
+        ranked_indices = sorted(
+
+            eligible_indices,
+
+            key=lambda index: scores[index],
+
+            reverse=True,
+
+        )[:top_k]
 
         return [
 

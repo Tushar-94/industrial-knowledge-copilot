@@ -111,3 +111,91 @@ def test_bm25_prefers_exact_alarm_identifier() -> None:
     )
 
     assert result[0].chunk.chunk_id == "2"
+
+def test_bm25_search_respects_eligible_chunk_ids() -> None:
+
+    from datetime import date
+
+    from industrial_copilot.retrieval.lexical import BM25Retriever
+
+    from industrial_copilot.retrieval.models import Chunk
+
+    preferred_by_text = Chunk(
+
+        chunk_id="lexically-strong",
+
+        text="MX-300 replacement filter replacement filter MX-300",
+
+        document_id="DOC-001",
+
+        document_type="test",
+
+        machine_models=["MX-200"],
+
+        section_title="Test Section",
+
+        heading_path=["Test Section"],
+
+        revision="1.0",
+
+        effective_date=date(2026, 1, 1),
+
+        language="en",
+
+        embedding_text=(
+
+            "MX-300 replacement filter replacement filter MX-300"
+
+        ),
+
+    )
+
+    eligible = Chunk(
+
+        chunk_id="eligible",
+
+        text="Replacement filter information.",
+
+        document_id="DOC-002",
+
+        document_type="test",
+
+        machine_models=["MX-300"],
+
+        section_title="Test Section",
+
+        heading_path=["Test Section"],
+
+        revision="1.0",
+
+        effective_date=date(2026, 1, 1),
+
+        language="en",
+
+        embedding_text="Replacement filter information.",
+
+    )
+
+    retriever = BM25Retriever(
+
+        [preferred_by_text, eligible]
+
+    )
+
+    results = retriever.search(
+
+        "MX-300 replacement filter",
+
+        top_k=5,
+
+        eligible_chunk_ids={"eligible"},
+
+    )
+
+    assert [
+
+        result.chunk.chunk_id
+
+        for result in results
+
+    ] == ["eligible"]

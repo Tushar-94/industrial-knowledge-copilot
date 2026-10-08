@@ -36,13 +36,17 @@ from industrial_copilot.retrieval.corpus import (
 
 from industrial_copilot.retrieval.embedder import Embedder
 
+from industrial_copilot.retrieval.constraints import (
+
+    build_retrieval_constraints,
+
+)
+
 from industrial_copilot.retrieval.hybrid_retriever import (
 
     HybridRetriever,
 
     adapt_qdrant_results,
-
-    build_qdrant_constraints,
 
 )
 
@@ -188,7 +192,7 @@ def main() -> None:
 
         else:
 
-            constraints = build_qdrant_constraints(
+            constraints = build_retrieval_constraints(
 
                 decision.analysis
 

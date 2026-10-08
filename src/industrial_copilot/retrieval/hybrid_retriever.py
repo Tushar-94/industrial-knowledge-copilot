@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-
 import numpy as np
 
 from numpy.typing import NDArray
@@ -18,19 +16,21 @@ from industrial_copilot.retrieval.hybrid import (
 
 )
 
+from industrial_copilot.retrieval.constraints import (
+
+    build_retrieval_constraints,
+
+    chunk_matches_constraints,
+
+)
+
 from industrial_copilot.retrieval.in_memory import SearchResult
 
 from industrial_copilot.retrieval.lexical import BM25Retriever
 
 from industrial_copilot.retrieval.models import Chunk
 
-from industrial_copilot.retrieval.query_analyzer import (
-
-    QueryAnalysis,
-
-    QueryIntent,
-
-)
+from industrial_copilot.retrieval.query_analyzer import QueryAnalysis
 
 from industrial_copilot.vector_store.retriever import (
 
@@ -39,94 +39,6 @@ from industrial_copilot.vector_store.retriever import (
     search_qdrant,
 
 )
-
-@dataclass(frozen=True)
-
-class QdrantQueryConstraints:
-
-    """Structured Qdrant filters derived from query analysis."""
-
-    machine_model: str | None = None
-
-    alarm_code: str | None = None
-
-    procedure_id: str | None = None
-
-    part_number: str | None = None
-
-    contains_spare_parts: bool | None = None
-
-def build_qdrant_constraints(
-
-    analysis: QueryAnalysis,
-
-) -> QdrantQueryConstraints:
-
-    """Translate analyzed query metadata into Qdrant constraints."""
-
-    machine_model = (
-
-        analysis.machine_models[0]
-
-        if len(analysis.machine_models) == 1
-
-        else None
-
-    )
-
-    alarm_code = (
-
-        analysis.alarm_codes[0]
-
-        if len(analysis.alarm_codes) == 1
-
-        else None
-
-    )
-
-    procedure_id = (
-
-        analysis.procedure_ids[0]
-
-        if len(analysis.procedure_ids) == 1
-
-        else None
-
-    )
-
-    part_number = (
-
-        analysis.part_numbers[0]
-
-        if len(analysis.part_numbers) == 1
-
-        else None
-
-    )
-
-    contains_spare_parts = (
-
-        True
-
-        if analysis.intent == QueryIntent.PARTS_LOOKUP
-
-        else None
-
-    )
-
-    return QdrantQueryConstraints(
-
-        machine_model=machine_model,
-
-        alarm_code=alarm_code,
-
-        procedure_id=procedure_id,
-
-        part_number=part_number,
-
-        contains_spare_parts=contains_spare_parts,
-
-    )
 
 def adapt_qdrant_results(
 
@@ -218,11 +130,27 @@ class HybridRetriever:
 
         """Search with Qdrant and BM25, then fuse rankings."""
 
-        constraints = build_qdrant_constraints(
+        constraints = build_retrieval_constraints(
 
             analysis
 
         )
+
+        eligible_chunk_ids = {
+
+            chunk.chunk_id
+
+            for chunk in self.chunks
+
+            if chunk_matches_constraints(
+
+                chunk,
+
+                constraints,
+
+            )
+
+        }
 
         qdrant_results = search_qdrant(
 
@@ -256,6 +184,8 @@ class HybridRetriever:
             query,
 
             top_k=candidate_k,
+
+            eligible_chunk_ids=eligible_chunk_ids,
 
         )
 
