@@ -34,6 +34,8 @@ def _build_embedding_text(
 
     machine_models: list[str],
 
+    document_title: str,
+
     section_title: str,
 
     text: str,
@@ -51,6 +53,8 @@ def _build_embedding_text(
             "Machine models: " + ", ".join(machine_models)
 
         )
+
+    parts.append(f"Document: {document_title}")
 
     parts.append(f"Section: {section_title}")
 
@@ -77,6 +81,8 @@ def _create_chunk(
     embedding_text = _build_embedding_text(
 
         machine_models=document.model_ids,
+
+        document_title=document.title,
 
         section_title=section_title,
 

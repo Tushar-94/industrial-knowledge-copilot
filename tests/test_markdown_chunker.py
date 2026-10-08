@@ -84,9 +84,29 @@ def test_heading_is_in_embedding_text() -> None:
 
     )
 
-    assert "Section: Hydraulic Pump" in pump_chunk.embedding_text
+    assert (
 
-    assert "Machine models: MX-200" in pump_chunk.embedding_text
+        "Document: MX-200 Operation and Maintenance Manual"
+
+        in pump_chunk.embedding_text
+
+    )
+
+    assert (
+
+        "Section: Hydraulic Pump"
+
+        in pump_chunk.embedding_text
+
+    )
+
+    assert (
+
+        "Machine models: MX-200"
+
+        in pump_chunk.embedding_text
+
+    )
 
 def test_chunk_keeps_source_metadata() -> None:
 
